@@ -4,6 +4,10 @@ import com.sparta.orderapp.dto.sign.SignupRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.catalina.Manager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -27,6 +31,15 @@ public class User extends Timestamped{
     private String name;
     @Column(length = 100)
     private String introduce;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    private List<Order> orders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    private List<Shop> shops = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    private List<Review> reviews = new ArrayList<>();
 
 
     public User(SignupRequestDto requestDto, String password) {
