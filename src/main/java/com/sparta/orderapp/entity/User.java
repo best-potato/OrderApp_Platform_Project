@@ -33,7 +33,6 @@ public class User extends Timestamped{
         this.email = requestDto.getEmail();
         this.password = password;
         this.name = requestDto.getName();
-        this.introduce = requestDto.getIntroduce();
     }
 
 
