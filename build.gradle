@@ -32,8 +32,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     // AuthenticationPrincipal
     testImplementation 'org.springframework.security:spring-security-test'
-    // bcrypt
+    // bcrypt (토큰)
     implementation 'at.favre.lib:bcrypt:0.10.2'
+
+    // Auth valid
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
 
     // jwt
     compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
@@ -43,6 +50,9 @@ dependencies {
     //DB
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
+    //MYSQL
+    implementation 'mysql:mysql-connector-java:8.0.28'
+
 
     // defualt
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
