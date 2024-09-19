@@ -24,6 +24,27 @@ repositories {
 }
 
 dependencies {
+    // HTTP Servlet
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    // AOP
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // AuthenticationPrincipal
+    testImplementation 'org.springframework.security:spring-security-test'
+    // bcrypt
+    implementation 'at.favre.lib:bcrypt:0.10.2'
+
+    // jwt
+    compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+    //DB
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // defualt
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
