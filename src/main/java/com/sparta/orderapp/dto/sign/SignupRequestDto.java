@@ -22,5 +22,6 @@ public class SignupRequestDto implements Serializable {
     @NotBlank(message = "이름은 필수 입력사항입니다.")
     private String name;
 
-
+    @NotBlank(message = "권한 설정은 필수 입니다")
+    private String role;
 }
