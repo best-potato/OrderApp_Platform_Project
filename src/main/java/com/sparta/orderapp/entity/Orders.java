@@ -36,5 +36,8 @@ public class Orders extends Timestamped{
         this.shop = new Shop(reqDto.getShopId());
         this.user = new User(userId);
     }
+    public void changeOrderStatus(int status){
+        this.orderStatus = status;
+    }
 
 }
