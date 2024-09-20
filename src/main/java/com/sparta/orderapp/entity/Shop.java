@@ -28,7 +28,7 @@ public class Shop extends Timestamped{
     private Boolean status;
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
-    private List<Order> orders = new ArrayList<>();
+    private List<Orders> orders = new ArrayList<>();
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
     private List<Menu> menus = new ArrayList<>();
@@ -40,4 +40,7 @@ public class Shop extends Timestamped{
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    public Shop(Long id){
+        this.shopId=id;
+    }
 }
