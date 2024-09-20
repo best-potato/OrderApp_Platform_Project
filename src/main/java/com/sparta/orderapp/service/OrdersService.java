@@ -47,7 +47,7 @@ public class OrdersService {
 
         // 본인 가게의 주문이 아닌 경우
         Orders orders =ordersRepository.findById(ordersId).orElse(null);
-        if(orders.getShop().getUser().getId() != authUser.getId()){
+        if(orders.getShop().getOwner().getId() != authUser.getId()){
             return 0; // 나중에 예외 처리
         }
 
