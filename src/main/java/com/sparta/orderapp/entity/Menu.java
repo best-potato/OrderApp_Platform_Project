@@ -33,8 +33,11 @@ public class Menu {
     private Shop shop;
 
     @OneToMany(mappedBy = "menu", cascade = CascadeType.PERSIST)
-    private List<Order> orders = new ArrayList<>();
+    private List<Orders> orders = new ArrayList<>();
 
+    public Menu(Long id){
+        this.orderId=id;
+    }
 
     public Menu(MenuRequestDto requestDto, Shop shop) {
         this.name = requestDto.getName();
