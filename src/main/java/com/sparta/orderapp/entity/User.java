@@ -18,19 +18,17 @@ public class User extends Timestamped{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, length = 100)
+    @Column(unique = true, length = 255)
     private String email;
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 255)
     private String password;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, length = 100)
     private UserStatusEnum user_status = UserStatusEnum.ABLE;
 
-    @Column(length = 100)
+    @Column(unique = true,length = 100)
     private String name;
-    @Column(length = 100)
-    private String introduce;
     @Column(length = 100)
     private String userRole;
 

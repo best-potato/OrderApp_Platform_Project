@@ -17,14 +17,14 @@ public class Shop extends Timestamped{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long shopId;
 
+    @Column(nullable = false, length = 20)
     private String name;
-
-    // 가게 하시는 분이 정하세요. 일단 String으로 만들게요.
+    @Column(nullable = false, length = 20)
     private String openTime;
+    @Column(nullable = false, length = 20)
     private String closeTime;
-
-    private int minOrderAmount;
-
+    @Column(nullable = false)
+    private int minOrderAmount; //Amount -> price 바꿔도 될까요?(  )
     private Boolean status;
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
