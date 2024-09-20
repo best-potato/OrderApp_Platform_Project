@@ -1,7 +1,8 @@
 package com.sparta.orderapp.controller;
 
 import com.sparta.orderapp.annotation.Auth;
-import com.sparta.orderapp.dto.orders.PostOrdersRequest;
+import com.sparta.orderapp.dto.orders.inquiryOrders.InquiryOrdersResponse;
+import com.sparta.orderapp.dto.orders.postOrders.PostOrdersRequest;
 import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.service.OrdersService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,11 @@ public class OrdersController {
     };
 
     // 주문 조회
+    @GetMapping("/orders/{ordersId}")
+    public ResponseEntity<InquiryOrdersResponse> inquiryOrders(@PathVariable Long ordersId, @Auth AuthUser authUser) {
+        InquiryOrdersResponse resDto = ordersService.inquiryOrders(ordersId, authUser);
+        return ResponseEntity.ok().body(resDto);
+    }
 
 
     // 주문 수락

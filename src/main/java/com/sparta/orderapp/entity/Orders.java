@@ -1,6 +1,6 @@
 package com.sparta.orderapp.entity;
 
-import com.sparta.orderapp.dto.orders.PostOrdersRequest;
+import com.sparta.orderapp.dto.orders.postOrders.PostOrdersRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
