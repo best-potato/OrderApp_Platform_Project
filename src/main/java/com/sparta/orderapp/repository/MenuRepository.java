@@ -1,9 +1,12 @@
 package com.sparta.orderapp.repository;
 
 import com.sparta.orderapp.entity.Menu;
+import com.sparta.orderapp.entity.Shop;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MenuRepository extends JpaRepository<Menu, Long> {
+import java.util.Optional;
 
+public interface MenuRepository extends JpaRepository<Menu, Long> {
+    Optional<Menu> findByShop(Shop shop);
 
 }

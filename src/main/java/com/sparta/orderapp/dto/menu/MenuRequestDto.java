@@ -3,7 +3,7 @@ package com.sparta.orderapp.dto.menu;
 import lombok.Getter;
 
 @Getter
-public class UpdateMenuRequestDto {
+public class MenuRequestDto {
     private String name;
     private int price;
 
