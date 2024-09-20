@@ -38,7 +38,7 @@ public class ShopOwnerController {
     }
 
     // 가게 단건조회 (유저랑 동일)
-    @GetMapping("/owners/{shopId}")
+    @GetMapping("/owners/shops/{shopId}")
     public ShopResponseDto getShop(@PathVariable Long shopId) {
         return shopService.getShop(shopId);
     }

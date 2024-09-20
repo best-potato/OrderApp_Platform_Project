@@ -17,7 +17,7 @@ public class ShopController {
     private final ShopService shopService;
 
     // 가게 단건 조회
-    @GetMapping("/users/{shopId}")
+    @GetMapping("/users/shops/{shopId}")
     public ShopResponseDto getShop(@PathVariable Long shopId) {
         return shopService.getShop(shopId);
     }
