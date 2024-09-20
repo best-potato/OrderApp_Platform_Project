@@ -27,10 +27,12 @@ public class User extends Timestamped{
     @Column(nullable = false, length = 100)
     private UserStatusEnum user_status = UserStatusEnum.ABLE;
 
-    @Column(unique = true, length = 100)
+    @Column(length = 100)
     private String name;
     @Column(length = 100)
     private String introduce;
+    @Column(length = 100)
+    private String userRole;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Order> orders = new ArrayList<>();
@@ -46,8 +48,8 @@ public class User extends Timestamped{
         this.email = requestDto.getEmail();
         this.password = password;
         this.name = requestDto.getName();
+        this.userRole = requestDto.getRole();
     }
-
 
     public void updatePassword(String password){
         this.password = password;
