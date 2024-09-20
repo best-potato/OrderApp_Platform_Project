@@ -3,11 +3,13 @@ package com.sparta.orderapp.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "shop")
@@ -40,4 +42,8 @@ public class Shop extends Timestamped{
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+
+    public Shop(Long shopId) {
+        this.shopId = shopId;
+    }
 }

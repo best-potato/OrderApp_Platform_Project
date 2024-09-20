@@ -1,5 +1,6 @@
 package com.sparta.orderapp.entity;
 
+import com.sparta.orderapp.dto.menu.CreateMenuRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,11 +15,13 @@ import java.util.List;
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    private Long menuId;
 
     private String name;
     private int price;
-    private Boolean status;
+
+    @Column(nullable = false)
+    private Boolean status = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id", nullable = false)
@@ -28,4 +31,14 @@ public class Menu {
     private List<Order> orders = new ArrayList<>();
 
 
+    public Menu(CreateMenuRequestDto requestDto, Shop shop) {
+        this.name = requestDto.getName();
+        this.price = requestDto.getPrice();
+        this.shop = shop;
+    }
+
+    public void menuUpdate(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
 }
