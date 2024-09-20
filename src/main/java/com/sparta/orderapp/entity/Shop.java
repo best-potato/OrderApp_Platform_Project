@@ -36,4 +36,8 @@ public class Shop extends Timestamped{
     @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
     private List<Review> reviews = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
 }
