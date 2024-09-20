@@ -2,7 +2,9 @@ package com.sparta.orderapp.service;
 
 import com.sparta.orderapp.config.JwtUtil;
 import com.sparta.orderapp.config.PasswordEncoder;
+import com.sparta.orderapp.dto.sign.DeleteAccountRequestDto;
 import com.sparta.orderapp.dto.sign.SignupRequestDto;
+import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.dto.user.LoginRequestDto;
 import com.sparta.orderapp.entity.User;
 import com.sparta.orderapp.entity.UserStatusEnum;
@@ -23,8 +25,14 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final BlacklistTokenService blacklistTokenService;
     private final JwtUtil jwtUtil;
 
+    /**
+     * 유저가 기입한 정보를 토대로 토큰을 발행하는 메서드
+     * @param requestDto 유저 기입 정보
+     * @return JWT 토큰
+     */
     public String login(LoginRequestDto requestDto) {
         //입력된 이메일로 유저찾기
         User user = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(() -> new NoSignedUserException());
@@ -35,7 +43,7 @@ public class AuthService {
         }
 
         //비밀번호 일치하는지 확인
-        if(!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())){
+        if(passwordEncoder.matches(requestDto.getPassword(), user.getPassword())){
             throw new WrongPasswordException();
         }
 
@@ -89,6 +97,25 @@ public class AuthService {
         Optional<User> user = userRepository.findByEmail(email);
 
         return user.orElseThrow(NoSignedUserException::new);
+    }
+
+    /**
+     * 유저를 삭제하고 BlacklistToken에 데이터를 추가하는 메서드
+     * @param token jwt토큰 정보
+     * @param user 현재 토큰에 저장된 유저 정보
+     * @param requestDto 유저가 기입한 비밀번호
+     */
+    @Transactional
+    public void deleteAccount(String token, AuthUser user, DeleteAccountRequestDto requestDto) {
+        User userToDelete = userRepository.findById(user.getId()).orElseThrow(NoSignedUserException::new);
+
+        // 비밀번호가 틀린 경우 에러
+        if (passwordEncoder.matches(requestDto.getPassword(), userToDelete.getPassword())) {
+            throw new WrongPasswordException();
+        }
+
+        userToDelete.update();
+        blacklistTokenService.addBlacklistToken(token);
     }
 }
 

@@ -1,6 +1,7 @@
 package com.sparta.orderapp.config;
 
 import com.sparta.orderapp.entity.UserRole;
+import com.sparta.orderapp.service.BlacklistTokenService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterConfig;
 import jakarta.servlet.*;
@@ -16,8 +17,8 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtFilter implements Filter {
-
     private final JwtUtil jwtUtil;
+    private final BlacklistTokenService blacklistTokenService;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -44,6 +45,12 @@ public class JwtFilter implements Filter {
         }
 
         String jwt = jwtUtil.substringToken(bearerJwt);
+
+        // 블랙리스트 토큰에 등록되어 있는 경우 거부
+        if (isBlacklistToken(jwt)) {
+            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "유효하지 않은 토큰입니다.");
+            return;
+        }
 
         try {
             // JWT 유효성 검사와 claims 추출
@@ -80,20 +87,44 @@ public class JwtFilter implements Filter {
         Filter.super.destroy();
     }
 
+    /**
+     * 해당 Page가 사장님 전용 페이지인지 확인하는 메서드
+     * @param request uri가 담긴 HttpServletRequest
+     * @return True : 사장님 전용 페이지 / False : 유저 전용 or 공동 페이지
+     */
     private boolean isOwnerPage(HttpServletRequest request) {
         String uri = request.getRequestURI();
 
         return uri.startsWith("/api/owner");
     }
 
+    /**
+     * 해당 userRole이 OWNER인지 확인하는 메서드
+     * @param userRole 확인할 UserRole enum 객체
+     * @return True : OWNER / False : USER
+     */
     private boolean isOwner(UserRole userRole) {
         return UserRole.OWNER.equals(userRole);
     }
 
+    /**
+     * 필터를 스킵할 URL / HTTP 메서드인지 체크하는 메서드
+     * @param request 확인할 HttpServletRequest 객체
+     * @return True : JWT를 확인하지 않는 URL / False : JWT인증이 필요한 URL
+     */
     public boolean isByPassFilter(HttpServletRequest request) {
         String url = request.getRequestURI();
         // 유저 관련 Post 메서드와 shop 관련 Get 메서드는 Jwt 인증 없이도 동작해야 한다.
         return (request.getMethod().equals("POST") && url.startsWith("/api/users"))
                 || (request.getMethod().equals("GET") && url.startsWith("/api/shops"));
+    }
+
+    /**
+     * 해당 토큰이 BlacklistToken에 추가되어 있는지 확인하는 메서드
+     * @param token 확인할 토큰값
+     * @return True : 이미 블랙리스트에 등록된 토큰 / False : 사용 가능한 토큰
+     */
+    private boolean isBlacklistToken(String token) {
+        return blacklistTokenService.findBlacklistToken(token) != null;
     }
 }
