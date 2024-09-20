@@ -1,5 +1,6 @@
 package com.sparta.orderapp.config;
 
+import com.sparta.orderapp.service.BlacklistTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +14,7 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 @RequiredArgsConstructor
 public class FilterConfig {
     private final JwtUtil jwtUtil;
-
+    private final BlacklistTokenService blacklistTokenService;
 
     /**
      * Jwt 필터를 등록하는 메서드
@@ -22,7 +23,7 @@ public class FilterConfig {
     @Bean
     public FilterRegistrationBean<JwtFilter> jwtFilter() {
         FilterRegistrationBean<JwtFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new JwtFilter(jwtUtil));
+        registrationBean.setFilter(new JwtFilter(jwtUtil, blacklistTokenService));
         registrationBean.addUrlPatterns("/*"); // 필터를 적용할 URL 패턴을 지정합니다.
 
         return registrationBean;
