@@ -1,4 +1,4 @@
-package com.sparta.orderapp.dto.orders;
+package com.sparta.orderapp.dto.orders.postOrders;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

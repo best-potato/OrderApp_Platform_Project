@@ -1,6 +1,6 @@
 package com.sparta.orderapp.entity;
 
-import com.sparta.orderapp.dto.orders.PostOrdersRequest;
+import com.sparta.orderapp.dto.orders.postOrders.PostOrdersRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +35,9 @@ public class Orders extends Timestamped{
         this.menu = new Menu(reqDto.getMenuId());
         this.shop = new Shop(reqDto.getShopId());
         this.user = new User(userId);
+    }
+    public void changeOrderStatus(int status){
+        this.orderStatus = status;
     }
 
 }
