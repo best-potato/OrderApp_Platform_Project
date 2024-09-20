@@ -51,7 +51,7 @@ public class ShopService {
      */
     @Transactional
     public ShopResponseDto updateShop(AuthUser authUser, Long shopId, ShopRequestDto requestDto) {
-        Shop shop = findShop(shopId);
+        Shop shop = commonService.findShop(shopId);
         commonService.confirmCreator(authUser.getId(), shopId, false);
         shop.update(requestDto);
         Shop saveComment = shopRepository.save(shop);
@@ -75,9 +75,5 @@ public class ShopService {
     public ShopResponseDto getShop(Long shopId) {
         Shop shop = shopRepository.findByShopId(shopId).orElseThrow(NoSignedUserException::new);
         return new ShopResponseDto(shop);
-    }
-
-    private Shop findShop (Long shopId) {
-        return shopRepository.findById(shopId).orElseThrow(()->new NotFoundException("해당하는 아이디의 댓글이 존재하지 않습니다."));
     }
 }
