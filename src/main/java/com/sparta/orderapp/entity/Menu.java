@@ -14,7 +14,7 @@ import java.util.List;
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    private Long menuId;
 
     private String name;
     private int price;
@@ -28,7 +28,7 @@ public class Menu {
     private List<Orders> orders = new ArrayList<>();
 
     public Menu(Long id){
-        this.orderId=id;
+        this.menuId =id;
     }
 
 }
