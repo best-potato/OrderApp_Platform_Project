@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface ReviewRepository extends JpaRepository<Review,Long> {
-    Page<Review> findAllByShop_ShopIdAndStarScoreBetween(Long id, int min, int max, Pageable pageable);
+    Page<Review> findAllByShop_ShopIdAndStarScoreBetween(Long shopId, int min, int max, Pageable pageable);
 
 }
