@@ -1,6 +1,7 @@
 package com.sparta.orderapp.repository;
 
 import com.sparta.orderapp.entity.Shop;
+import com.sparta.orderapp.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,6 @@ import java.util.Optional;
 public interface ShopRepository extends JpaRepository<Shop, Long> {
     Optional<Shop> findByShopId(Long shopId);
     Page<Shop> findAllByShopId(Long shopId, Pageable pageable);
+
+    Optional<Shop> findByOwnerAndShopId(User user, Long shopId);
 }

@@ -25,6 +25,7 @@ public class Menu {
     @Column(nullable = false)
     private int price;
 
+    // 삭제 시 true
     @Column(nullable = false)
     private Boolean status = false;
 
@@ -36,7 +37,7 @@ public class Menu {
     private List<Orders> orders = new ArrayList<>();
 
     public Menu(Long id){
-        this.orderId=id;
+        this.menuId=id;
     }
 
     public Menu(MenuRequestDto requestDto, Shop shop) {

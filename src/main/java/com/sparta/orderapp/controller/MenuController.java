@@ -31,7 +31,8 @@ public class MenuController {
             @PathVariable Long shopId,
             @PathVariable Long menuId,
             @RequestBody MenuRequestDto requestDto) {
-        return ResponseEntity.ok(menuService.updateMenu(authUser.getId(),shopId, menuId, requestDto));
+        UpdateMenuResponseDto responseDto = menuService.updateMenu(authUser.getId(),shopId, menuId, requestDto);
+        return ResponseEntity.ok().body(responseDto);
     }
 
     // 메뉴 삭제
