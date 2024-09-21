@@ -34,7 +34,7 @@ public class User extends Timestamped{
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Orders> orders = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST)
     private List<Shop> shops = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)

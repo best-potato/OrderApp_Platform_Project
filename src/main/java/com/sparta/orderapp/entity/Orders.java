@@ -31,7 +31,7 @@ public class Orders extends Timestamped{
     private Menu menu;
 
 
-    public Orders(PostOrdersRequest reqDto, Long userId){
+    public Orders(PostOrdersRequest reqDto,Long userId){
         this.menu = new Menu(reqDto.getMenuId());
         this.shop = new Shop(reqDto.getShopId());
         this.user = new User(userId);
