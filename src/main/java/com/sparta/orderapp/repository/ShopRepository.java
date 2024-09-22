@@ -13,6 +13,6 @@ import java.util.Optional;
 public interface ShopRepository extends JpaRepository<Shop, Long> {
     Optional<Shop> findByShopId(Long shopId);
     Page<Shop> findAllByShopId(Long shopId, Pageable pageable);
-
     Optional<Shop> findByOwnerAndShopId(User user, Long shopId);
+    int countByOwnerId(Long ownerId);
 }
