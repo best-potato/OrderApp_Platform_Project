@@ -34,7 +34,7 @@ public class ShopOwnerController {
         int shopCount = shopService.getShopCountByOwner(authUser.getId());
 
         // Step 2: 가게 수가 4개 이상이면 예외 처리
-        if (shopCount >= 4) {
+        if (shopCount >= 3) {
             throw new BadRequestException("가게는 최대 3개까지만 운영할 수 있습니다.");
         }
 
