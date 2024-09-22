@@ -76,4 +76,8 @@ public class ShopService {
         Shop shop = shopRepository.findByShopId(shopId).orElseThrow(NoSignedUserException::new);
         return new ShopResponseDto(shop);
     }
+
+    public int getShopCountByOwner(long ownerId) {
+        return shopRepository.countByOwnerId(ownerId);
+    }
 }
