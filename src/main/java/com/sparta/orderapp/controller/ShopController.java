@@ -16,6 +16,7 @@ import java.util.List;
 public class ShopController {
     private final ShopService shopService;
 
+
     // 가게 단건 조회
     @GetMapping("/users/shops/{shopId}")
     public ShopResponseDto getShop(@PathVariable Long shopId) {
@@ -27,10 +28,31 @@ public class ShopController {
      * @param size : 전체 페이징 사이즈
      * @return 가게 다건 조회
      */
+//    @GetMapping("/users/shops")
+//    public ResponseEntity<Page<ShopResponseDto>> getShops(@RequestParam(defaultValue = "1", required = false) int page,
+//                                                          @RequestParam(defaultValue = "10", required = false) int size) {
+//        return ResponseEntity.ok(shopService.getShops(page, size));
+//    }
+
+    // 가게 목록 조회 API (사용자용)
+
+    /***
+     *
+     * @param page
+     * @param size
+     * @return
+     */
     @GetMapping("/users/shops")
-    public ResponseEntity<Page<ShopResponseDto>> getShops(@RequestParam(defaultValue = "1", required = false) int page,
-                                                          @RequestParam(defaultValue = "10", required = false) int size) {
-        return ResponseEntity.ok(shopService.getShops(page, size));
+    public ResponseEntity<Page<ShopResponseDto>> getOpenShops(
+            @RequestParam(defaultValue = "1", required = false) int page,
+            @RequestParam(defaultValue = "10", required = false) int size) {
+
+        // 서비스에서 페이지네이션 처리된 가게 리스트를 받아옴
+        Page<ShopResponseDto> openShopsPage = shopService.getOpenShops(page - 1, size);
+
+        // 결과 반환 (Page 형식 그대로 반환)
+        return ResponseEntity.ok(openShopsPage);
     }
+
 
 }
