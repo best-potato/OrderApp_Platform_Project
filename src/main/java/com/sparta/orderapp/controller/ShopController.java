@@ -43,12 +43,12 @@ public class ShopController {
      * @return
      */
     @GetMapping("/users/shops")
-    public ResponseEntity<Page<ShopResponseDto>> getOpenShops(
+    public ResponseEntity<List<ShopResponseDto>> getOpenShops(
             @RequestParam(defaultValue = "1", required = false) int page,
             @RequestParam(defaultValue = "10", required = false) int size) {
 
         // 서비스에서 페이지네이션 처리된 가게 리스트를 받아옴
-        Page<ShopResponseDto> openShopsPage = shopService.getOpenShops(page - 1, size);
+        List<ShopResponseDto> openShopsPage = shopService.getOpenShops(page - 1, size);
 
         // 결과 반환 (Page 형식 그대로 반환)
         return ResponseEntity.ok(openShopsPage);

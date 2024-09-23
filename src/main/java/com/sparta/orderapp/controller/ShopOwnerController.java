@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 // owner 로그인시 사용하는 Api입니다.
 @RestController
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class ShopOwnerController {
     @PostMapping("/owners/shops")
     public ResponseEntity<ShopResponseDto> createShop(@Auth AuthUser authUser, @Valid @RequestBody ShopRequestDto requestDto) {
         // Step 1: 사장님의 현재 가게 수를 조회
-        int shopCount = shopService.getShopCountByOwner(authUser.getId());
+        int shopCount = shopService.getActiveShopCount(authUser.getId());
 
         // Step 2: 가게 수가 4개 이상이면 예외 처리
         if (shopCount >= 3) {
@@ -38,7 +40,9 @@ public class ShopOwnerController {
         ShopResponseDto createdShop = shopService.createShop(authUser, requestDto);
         return ResponseEntity.ok(createdShop);
     }
+
     //
+
 
     // 가게 수정 (사장님 전용)
     @PutMapping("/owners/shops/{shopId}") //반환타입 메서드
@@ -48,9 +52,10 @@ public class ShopOwnerController {
 
     // 가게 다건조회 (유저랑 동일)
     @GetMapping("/owners/shops")
-    public ResponseEntity<Page<ShopResponseDto>> getShops(@RequestParam(defaultValue = "1", required = false) int page,
+    public ResponseEntity<List<ShopResponseDto>> getShops(@RequestParam(defaultValue = "1", required = false) int page,
                                                           @RequestParam(defaultValue = "10", required = false) int size) {
-        return ResponseEntity.ok(shopService.getOpenShops(page, size));
+
+        return ResponseEntity.ok(shopService.getOpenShops(page-1, size));
     }
 
     // 가게 단건조회 (유저랑 동일)
@@ -64,7 +69,7 @@ public class ShopOwnerController {
     public ResponseEntity<String> closeShop(@Auth AuthUser authUser, @PathVariable Long shopId) {
         // Step 1: 가게 정보 조회
 
-        // Step 2: 가게 상태 변경 (폐업 상태로 변경)
+        // Step 2: 가게 상태 변경 (폐업 상태로 변경) //200
         shopService.closeShop(shopId, authUser.getId());
 
         return ResponseEntity.ok("가게가 폐업 처리되었습니다.");
