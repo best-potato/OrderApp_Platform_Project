@@ -29,7 +29,6 @@ public class Shop extends Timestamped{
     @Column(nullable = false)
     private int minOrderPrice;
     @Enumerated(EnumType.STRING) // Enum 값을 문자열로 저장
-    @Column
     private ShopStatus shopStatus = ShopStatus.OPEN;  // Enum 타입으로 변경, 필드명도 소문자로 변경
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
@@ -67,7 +66,7 @@ public class Shop extends Timestamped{
     }
 
     // 상태 변경 메서드
-    public void setStatus(ShopStatus status) {
+    public void setShopStatus(ShopStatus status) {
         this.shopStatus = status;
     }
 
