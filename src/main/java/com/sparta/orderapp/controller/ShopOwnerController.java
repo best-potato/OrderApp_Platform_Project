@@ -3,6 +3,7 @@ package com.sparta.orderapp.controller;
 import com.sparta.orderapp.annotation.Auth;
 import com.sparta.orderapp.dto.shop.ShopRequestDto;
 import com.sparta.orderapp.dto.shop.ShopResponseDto;
+import com.sparta.orderapp.dto.shop.ShopSingleRetrievalResponseDto;
 import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.entity.Shop;
 import com.sparta.orderapp.exception.BadRequestException;
@@ -41,7 +42,6 @@ public class ShopOwnerController {
         return ResponseEntity.ok(createdShop);
     }
 
-    //
 
 
     // 가게 수정 (사장님 전용)
@@ -60,7 +60,7 @@ public class ShopOwnerController {
 
     // 가게 단건조회 (유저랑 동일)
     @GetMapping("/owners/shops/{shopId}")
-    public ShopResponseDto getShop(@PathVariable Long shopId) {
+    public ShopSingleRetrievalResponseDto getShop(@PathVariable Long shopId) {
         return shopService.getShop(shopId);
     }
 

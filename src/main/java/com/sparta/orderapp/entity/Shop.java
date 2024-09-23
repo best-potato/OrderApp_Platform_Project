@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "shop")
@@ -34,13 +33,13 @@ public class Shop extends Timestamped{
     @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
     private List<Orders> orders = new ArrayList<>();
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY) //LAZY로 변경, 메뉴 목록은 필요할 때 별도의 쿼리로 가져옵니다.
     private List<Menu> menus = new ArrayList<>();
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
     private List<Review> reviews = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false) // user_id -> owner_id
     private User owner; // 사장님
 
