@@ -30,7 +30,7 @@ public class Orders extends Timestamped{
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;
 
-
+    // 피드백 받고 싶은 부분
     public Orders(PostOrdersRequest reqDto,Long userId){
         this.menu = new Menu(reqDto.getMenuId());
         this.shop = new Shop(reqDto.getShopId());
