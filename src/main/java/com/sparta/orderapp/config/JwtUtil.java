@@ -1,6 +1,7 @@
 package com.sparta.orderapp.config;
 
 
+import com.sparta.orderapp.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -47,22 +48,21 @@ public class JwtUtil {
         key = Keys.hmacShaKeyFor(bytes);
     }
     //-------------토큰생성에 필요한 데이터-------------//
+
     //-------------JWT 토큰 생성-------------//
-    public String createToken(Long userId, String name, String email, String userRole) {
+    public String createToken(User user) {
         Date date = new Date();
 
-        return BEARER_PREFIX +
-                Jwts.builder()
-                        .setSubject(String.valueOf(userId)) // 사용자 식별자값(ID)
-                        .claim("email", email)
-                        .claim("name", name)
-                        .claim("userRole", userRole) // 사용자 권한
-                        .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
-                        .setIssuedAt(date) // 발급일
-                        .signWith(key, signatureAlgorithm) // 암호화 알고리즘
-                        .compact();
+        return BEARER_PREFIX + Jwts.builder()
+                .setSubject(String.valueOf(user.getId()))
+                .claim("email", user.getEmail())
+                .claim("name", user.getName())
+                .claim("userRole", user.getUserRole())
+                .setExpiration(new Date(date.getTime() + TOKEN_TIME))
+                .setIssuedAt(date)
+                .signWith(key, signatureAlgorithm)
+                .compact();
     }
-    //-------------JWT 토큰 생성-------------//
 
     // substringToken = 받아온 Cookie value//
     public String substringToken(String tokenValue) {
