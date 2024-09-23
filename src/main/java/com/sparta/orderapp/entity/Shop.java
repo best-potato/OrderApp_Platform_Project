@@ -28,7 +28,9 @@ public class Shop extends Timestamped{
     private String closeTime;
     @Column(nullable = false)
     private int minOrderPrice;
-    private boolean status;
+    @Enumerated(EnumType.STRING) // Enum 값을 문자열로 저장
+    @Column
+    private ShopStatus shopStatus = ShopStatus.OPEN;  // Enum 타입으로 변경, 필드명도 소문자로 변경
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
     private List<Orders> orders = new ArrayList<>();
@@ -52,7 +54,7 @@ public class Shop extends Timestamped{
         this.closeTime = shopRequestDto.getCloseTime();
         this.openTime = shopRequestDto.getOpenTime();
         this.owner = user;
-        this.status = true; // 정상영업 : 1
+        this.shopStatus = ShopStatus.OPEN; // 정상영업 : 1
         this.shopName = shopRequestDto.getShopName();
         this.minOrderPrice = shopRequestDto.getMinOrderPrice();
     }
@@ -63,4 +65,10 @@ public class Shop extends Timestamped{
         this.minOrderPrice = requestDto.getMinOrderPrice();
         this.shopName = requestDto.getShopName();
     }
+
+    // 상태 변경 메서드
+    public void setStatus(ShopStatus status) {
+        this.shopStatus = status;
+    }
+
 }

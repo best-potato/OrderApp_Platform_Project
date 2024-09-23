@@ -6,6 +6,7 @@ import com.sparta.orderapp.dto.shop.ShopResponseDto;
 import com.sparta.orderapp.dto.sign.SignupResponseDto;
 import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.entity.Shop;
+import com.sparta.orderapp.entity.ShopStatus;
 import com.sparta.orderapp.entity.User;
 import com.sparta.orderapp.exception.NoSignedUserException;
 import com.sparta.orderapp.exception.NotFoundException;
@@ -59,14 +60,29 @@ public class ShopService {
     }
 
     /***
-     * Shop 다건조회
+     * Shop 폐업처리(사장님용)
      */
-    public Page<ShopResponseDto> getShops(int page, int size) {
-        Pageable pageable = PageRequest.of(page-1, size);
-        Page<Shop> receiveList = shopRepository.findAll(pageable);
-        return receiveList
-                .map(ShopResponseDto::new);
+    @Transactional
+    public void closeShop(Long shopId, Long ownerId) {
+        Shop shop = shopRepository.findByShopIdAndOwnerId(shopId, ownerId)
+                .orElseThrow(() -> new IllegalArgumentException("가게를 찾을 수 없습니다."));
+        shop.setStatus(ShopStatus.CLOSED);
     }
+
+    /***
+     * Shop 상태에 따라, 다건조회
+     */
+    public Page<ShopResponseDto> getOpenShops(int page, int size) {
+        // Pageable 객체 생성 (페이지와 사이즈를 전달)
+        Pageable pageable = PageRequest.of(page, size);
+
+        // 상태가 OPEN인 가게들만 페이지네이션하여 조회
+        Page<Shop> openShopsPage = shopRepository.findAllByStatus(ShopStatus.OPEN, pageable);
+
+        // Shop 엔티티를 ShopResponseDto로 변환하여 반환
+        return openShopsPage.map(ShopResponseDto::new);
+    }
+
 
 
     /***

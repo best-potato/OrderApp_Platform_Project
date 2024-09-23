@@ -4,6 +4,7 @@ import com.sparta.orderapp.annotation.Auth;
 import com.sparta.orderapp.dto.shop.ShopRequestDto;
 import com.sparta.orderapp.dto.shop.ShopResponseDto;
 import com.sparta.orderapp.dto.user.AuthUser;
+import com.sparta.orderapp.entity.Shop;
 import com.sparta.orderapp.exception.BadRequestException;
 import com.sparta.orderapp.exception.GlobalExceptionHandler;
 import com.sparta.orderapp.service.ShopService;
@@ -22,11 +23,6 @@ import org.springframework.web.bind.annotation.*;
 public class ShopOwnerController {
     private final ShopService shopService;
 
-    // 가게 생성 (사장님 전용)
-//    @PostMapping("/owners/shops")
-//    public ResponseEntity<ShopResponseDto> createShop(@Auth AuthUser authUser, @Valid @RequestBody ShopRequestDto requestDto) {
-//        return ResponseEntity.ok(shopService.createShop(authUser, requestDto));
-//    }
     // 가게 생성 (사장님 전용)
     @PostMapping("/owners/shops")
     public ResponseEntity<ShopResponseDto> createShop(@Auth AuthUser authUser, @Valid @RequestBody ShopRequestDto requestDto) {
@@ -54,13 +50,24 @@ public class ShopOwnerController {
     @GetMapping("/owners/shops")
     public ResponseEntity<Page<ShopResponseDto>> getShops(@RequestParam(defaultValue = "1", required = false) int page,
                                                           @RequestParam(defaultValue = "10", required = false) int size) {
-        return ResponseEntity.ok(shopService.getShops(page, size));
+        return ResponseEntity.ok(shopService.getOpenShops(page, size));
     }
 
     // 가게 단건조회 (유저랑 동일)
     @GetMapping("/owners/shops/{shopId}")
     public ShopResponseDto getShop(@PathVariable Long shopId) {
         return shopService.getShop(shopId);
+    }
+
+    // 가게 폐업 (사장님 전용)
+    @PatchMapping("/owners/shops/{shopId}/close")
+    public ResponseEntity<String> closeShop(@Auth AuthUser authUser, @PathVariable Long shopId) {
+        // Step 1: 가게 정보 조회
+
+        // Step 2: 가게 상태 변경 (폐업 상태로 변경)
+        shopService.closeShop(shopId, authUser.getId());
+
+        return ResponseEntity.ok("가게가 폐업 처리되었습니다.");
     }
 
 }
