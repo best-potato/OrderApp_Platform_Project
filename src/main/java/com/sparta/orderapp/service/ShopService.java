@@ -88,7 +88,7 @@ public class ShopService {
      * Shop 단건조회
      */
     public ShopResponseDto getShop(Long shopId) {
-        Shop shop = shopRepository.findByShopId(shopId).orElseThrow(NoSignedUserException::new);
+        Shop shop = shopRepository.findByShopId(shopId).orElseThrow(()-> new IllegalArgumentException("가게를 찾을 수 없습니다."));;
         return new ShopResponseDto(shop);
     }
 
