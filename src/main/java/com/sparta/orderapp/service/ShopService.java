@@ -2,6 +2,7 @@ package com.sparta.orderapp.service;
 
 import com.sparta.orderapp.dto.shop.ShopRequestDto;
 import com.sparta.orderapp.dto.shop.ShopResponseDto;
+import com.sparta.orderapp.dto.shop.ShopSingleRetrievalResponseDto;
 import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.entity.Shop;
 import com.sparta.orderapp.entity.ShopStatus;
@@ -87,9 +88,9 @@ public class ShopService {
     /***
      * Shop 단건조회
      */
-    public ShopResponseDto getShop(Long shopId) {
+    public ShopSingleRetrievalResponseDto getShop(Long shopId) {
         Shop shop = shopRepository.findByShopId(shopId).orElseThrow(()-> new IllegalArgumentException("가게를 찾을 수 없습니다."));;
-        return new ShopResponseDto(shop);
+        return new ShopSingleRetrievalResponseDto(shop);
     }
 
     // 사장님의 영업 중인(OPEN) 가게 수만 카운트하는 메서드
