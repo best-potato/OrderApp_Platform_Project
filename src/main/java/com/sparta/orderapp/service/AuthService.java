@@ -5,9 +5,11 @@ import com.sparta.orderapp.config.PasswordEncoder;
 import com.sparta.orderapp.dto.sign.DeleteAccountRequestDto;
 import com.sparta.orderapp.dto.sign.SignupRequestDto;
 import com.sparta.orderapp.dto.user.AuthUser;
+import com.sparta.orderapp.dto.user.KakaoUserDto;
 import com.sparta.orderapp.dto.user.LoginRequestDto;
 import com.sparta.orderapp.entity.User;
 import com.sparta.orderapp.entity.UserStatusEnum;
+import com.sparta.orderapp.exception.DuplicateEmailException;
 import com.sparta.orderapp.exception.NoSignedUserException;
 import com.sparta.orderapp.exception.WrongPasswordException;
 import com.sparta.orderapp.repository.UserRepository;
@@ -17,12 +19,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class AuthService {
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final BlacklistTokenService blacklistTokenService;
@@ -48,23 +50,19 @@ public class AuthService {
         }
 
         //존재하는 유저가 비밀번호를 알맞게 입력시 JWT토큰반환
-        return jwtUtil.createToken(
-                user.getId(),
-                user.getName(),
-                user.getEmail(),
-                user.getUserRole()
-        );
+        return jwtUtil.createToken(user);
     }
 
     /**
      * 회원가입하는 메서드
      * @param signupRequestDto 회원가입과 관련된 기입 정보
      */
+    @Transactional(readOnly = true)
     public void signUp(SignupRequestDto signupRequestDto) {
         Optional<User> foundUser = userRepository.findByEmail(signupRequestDto.getEmail());
         // 이미 존재하는 email인 경우
         if (foundUser.isPresent()) {
-            log.error("이미 존재하는 ID입니다");
+            throw new DuplicateEmailException();
         }
 
         // 비밀번호 암호화
@@ -75,6 +73,20 @@ public class AuthService {
         userRepository.save(user);
     }
 
+    @Transactional
+    public User signUpUseKakao(KakaoUserDto kakaoUserDto) {
+        Optional<User> foundUser = userRepository.findByEmail(kakaoUserDto.getEmail());
+
+        if (foundUser.isPresent()) {
+            throw new DuplicateEmailException();
+        }
+
+        String password = UUID.randomUUID().toString();
+        String encodePassword = passwordEncoder.encode(password);
+
+        User user = new User(kakaoUserDto.getEmail(), encodePassword, kakaoUserDto.getNickname(), "USER");
+        return userRepository.save(user);
+    }
     /**
      * Id로 유저 정보를 찾는 메서드
      * @param id 찾고자 하는 유저 Id
@@ -116,6 +128,11 @@ public class AuthService {
 
         userToDelete.update();
         blacklistTokenService.addBlacklistToken(token);
+    }
+
+    @Transactional(readOnly = true)
+    public User findByKakaoId(Long kakaoId) {
+        return userRepository.findBykakaoId(kakaoId).orElse(null);
     }
 }
 

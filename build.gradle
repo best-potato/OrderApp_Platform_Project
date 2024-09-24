@@ -24,6 +24,8 @@ repositories {
 }
 
 dependencies {
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     // HTTP Servlet
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
     // AOP
@@ -52,7 +54,10 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     //MYSQL
     implementation 'mysql:mysql-connector-java:8.0.28'
-
+    // OAuth 2.0
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    // httpclient5
+    implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.3.1'
 
     // defualt
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

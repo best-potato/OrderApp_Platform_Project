@@ -76,3 +76,5 @@ public class ShopOwnerController {
     }
 
 }
+
+// http://localhost:8080/api/users/kakao

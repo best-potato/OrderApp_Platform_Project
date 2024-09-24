@@ -6,7 +6,9 @@ import com.sparta.orderapp.dto.orders.postOrders.PostOrdersRequest;
 import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.entity.Orders;
 import com.sparta.orderapp.entity.UserRole;
+import com.sparta.orderapp.exception.BadRequestException;
 import com.sparta.orderapp.repository.OrdersRepository;
+import com.sparta.orderapp.repository.PopularShopRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class OrdersService {
 
     private final OrdersRepository ordersRepository;
+    private final PopularShopRepository popularShopRepository;
 
 
     // 주문 생성
@@ -53,6 +56,12 @@ public class OrdersService {
 
         orders.changeOrderStatus(reqDto.getOrdersStatus());
         ordersRepository.save(orders);
+
+        if(reqDto.getOrdersStatus() == 4){
+            popularShopRepository.saveOrder(orders.getShop().getShopId());
+        }
+
+
         return 1;
     }
 
