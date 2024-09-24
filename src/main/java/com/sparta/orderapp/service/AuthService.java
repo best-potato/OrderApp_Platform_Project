@@ -57,7 +57,7 @@ public class AuthService {
      * 회원가입하는 메서드
      * @param signupRequestDto 회원가입과 관련된 기입 정보
      */
-    @Transactional(readOnly = true)
+    @Transactional
     public void signUp(SignupRequestDto signupRequestDto) {
         Optional<User> foundUser = userRepository.findByEmail(signupRequestDto.getEmail());
         // 이미 존재하는 email인 경우
@@ -84,7 +84,7 @@ public class AuthService {
         String password = UUID.randomUUID().toString();
         String encodePassword = passwordEncoder.encode(password);
 
-        User user = new User(kakaoUserDto.getEmail(), encodePassword, kakaoUserDto.getNickname(), "USER");
+        User user = new User(kakaoUserDto, encodePassword);
         return userRepository.save(user);
     }
     /**
