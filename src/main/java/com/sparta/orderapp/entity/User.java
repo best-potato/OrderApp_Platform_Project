@@ -3,7 +3,6 @@ package com.sparta.orderapp.entity;
 import com.sparta.orderapp.dto.sign.SignupRequestDto;
 import com.sparta.orderapp.dto.user.KakaoUserDto;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

@@ -10,9 +10,7 @@ import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.dto.user.LoginRequestDto;
 import com.sparta.orderapp.service.AuthService;
 import com.sparta.orderapp.service.KakaoService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +26,11 @@ public class AuthController {
     private final KakaoService kakaoService;
     private final JwtUtil jwtUtil;
 
+    /**
+     * 유저가 회원가입을 처리할 메서드
+     * @param signupRequestDto
+     * @return 200 : Ok
+     */
     @PostMapping("/users/signup")
     public ResponseEntity<Object> signup(@RequestBody @Valid SignupRequestDto signupRequestDto) {
         authService.signUp(signupRequestDto);
@@ -52,7 +55,7 @@ public class AuthController {
      * @return 200 : 삭제 성공
      */
     @DeleteMapping("/users")
-    public ResponseEntity<Object> deleteAccount(@Auth AuthUser user, HttpServletRequest httpServletRequest, @RequestBody DeleteAccountRequestDto requestDto) {
+    public ResponseEntity<Object> deleteAccount(@Auth AuthUser user, HttpServletRequest httpServletRequest, @RequestBody DeleteAccountRequestDto requestDto) throws JsonProcessingException {
         String token = httpServletRequest.getHeader("Authorization");
         String jwt = jwtUtil.substringToken(token);
         authService.deleteAccount(jwt, user, requestDto);

@@ -1,7 +1,10 @@
 package com.sparta.orderapp.controller;
 
 import com.sparta.orderapp.annotation.Auth;
-import com.sparta.orderapp.dto.menu.*;
+import com.sparta.orderapp.dto.menu.CreateMenuResponseDto;
+import com.sparta.orderapp.dto.menu.DeleteMenuResponseDto;
+import com.sparta.orderapp.dto.menu.MenuRequestDto;
+import com.sparta.orderapp.dto.menu.UpdateMenuResponseDto;
 import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.service.MenuService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +18,13 @@ public class MenuController {
 
     private final MenuService menuService;
 
-    //메뉴 생성
+    /**
+     * 메뉴를 추가하는 메서드
+     * @param authUser 현재 로그인중인 유저에 대한 정보
+     * @param shopId 메뉴를 추가할 상점 Id
+     * @param requestDto 메뉴 추가에 필요한 정보가 담긴 Request Dto
+     * @return 200 : 메뉴 추가 성공
+     */
     @PostMapping("/{shopId}/menus")
     public ResponseEntity<CreateMenuResponseDto> createMenu (
             @Auth AuthUser authUser,
@@ -24,7 +33,14 @@ public class MenuController {
         return ResponseEntity.ok(menuService.createMenu(authUser.getId(), shopId, requestDto));
     }
 
-    // 메뉴 수정
+    /**
+     * 메뉴 정보를 갱신하는 메서드
+     * @param authUser 현재 로그인중인 유저에 대한 정보
+     * @param shopId 메뉴를 추가할 상점 Id
+     * @param menuId 갱신할 메뉴 Id
+     * @param requestDto 메뉴 업데이트에 필요한 정보가 담긴 Request Dto
+     * @return 200 : 메뉴 정보 변경 성공
+     */
     @PutMapping("/{shopId}/menus/{menuId}")
     public ResponseEntity<UpdateMenuResponseDto> updateMenu (
             @Auth AuthUser authUser,
@@ -35,7 +51,13 @@ public class MenuController {
         return ResponseEntity.ok().body(responseDto);
     }
 
-    // 메뉴 삭제
+    /**
+     * 메뉴를 삭제하는 메서드
+     * @param authUser 현재 로그인 중인 유저에 대한 정보
+     * @param shopId 메뉴를 삭제할 상점 Id
+     * @param menuId 삭제할 메뉴 Id
+     * @return 200 : 메뉴 삭제 성공
+     */
     @DeleteMapping("/{shopId}/menus/{menuId}")
     public ResponseEntity<DeleteMenuResponseDto> deleteMenu(
             @Auth AuthUser authUser,

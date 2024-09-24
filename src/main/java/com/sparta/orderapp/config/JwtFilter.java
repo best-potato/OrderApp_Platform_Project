@@ -71,14 +71,14 @@ public class JwtFilter implements Filter {
                 httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "권한이 존재하지 않습니다.");
                 return;
             }
-
-            if (jwtUtil.validateToken(jwt)) {
-                chain.doFilter(request, response);
-            } else {
-                httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT 토큰이 유효하지 않습니다.");
-            }
         } catch (Exception e) {
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT 토큰 검증 중 오류가 발생했습니다.");
+        }
+
+        if (jwtUtil.validateToken(jwt)) {
+            chain.doFilter(request, response);
+        } else {
+            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT 토큰이 유효하지 않습니다.");
         }
     }
 

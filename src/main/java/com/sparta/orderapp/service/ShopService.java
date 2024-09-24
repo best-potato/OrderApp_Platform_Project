@@ -7,7 +7,6 @@ import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.entity.Shop;
 import com.sparta.orderapp.entity.ShopStatus;
 import com.sparta.orderapp.entity.User;
-import com.sparta.orderapp.exception.NoSignedUserException;
 import com.sparta.orderapp.repository.ShopRepository;
 import com.sparta.orderapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

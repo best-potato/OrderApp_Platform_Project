@@ -1,7 +1,7 @@
 package com.sparta.orderapp.service;
 
-import com.sparta.orderapp.dto.menu.MenuRequestDto;
 import com.sparta.orderapp.dto.menu.CreateMenuResponseDto;
+import com.sparta.orderapp.dto.menu.MenuRequestDto;
 import com.sparta.orderapp.dto.menu.UpdateMenuResponseDto;
 import com.sparta.orderapp.entity.Menu;
 import com.sparta.orderapp.entity.Shop;
@@ -19,7 +19,13 @@ public class MenuService {
     private final MenuRepository menuRepository;
     private final ShopRepository shopRepository;
 
-    // 메뉴 생성
+    /**
+     * ShopId를 가진 가게에 메뉴를 추가하는 메서드
+     * @param userId 가게 오너 Id
+     * @param shopId 가게 Id
+     * @param requestDto 추가할 메뉴에 대한 정보가 담긴 Dto
+     * @return 새로 추가한 메뉴에 대한 정보가 담긴 Dto
+     */
     @Transactional
     public CreateMenuResponseDto createMenu(Long userId, Long shopId, MenuRequestDto requestDto) {
         User user = new User(userId);
@@ -32,7 +38,14 @@ public class MenuService {
     }
 
 
-    // 메뉴 수정
+    /**
+     * menuId에 해당하는 menu에 대한 정보를 갱신하는 메서드
+     * @param userId 가게 오너 Id
+     * @param shopId 가게 Id
+     * @param menuId 변경할 메뉴 Id
+     * @param requestDto 해당 메뉴에 대해 변경할 내용
+     * @return 갱신된 메뉴에 대한 정보가 담긴 Dto
+     */
     @Transactional
     public UpdateMenuResponseDto updateMenu(Long userId, Long shopId, Long menuId, MenuRequestDto requestDto) {
         User user = new User(userId);
@@ -49,7 +62,12 @@ public class MenuService {
     }
 
 
-    // 메뉴 삭제
+    /**
+     * 해당 menu를 삭제하는 메서드
+     * @param userId 가게 오너 Id
+     * @param shopId 해당 가게 Id
+     * @param menuId 삭제할 메뉴 Id
+     */
     @Transactional
     public void deleteMenu(Long userId, Long shopId, Long menuId) {
         User user = new User(userId);
