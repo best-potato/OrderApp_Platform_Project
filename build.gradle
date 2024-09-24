@@ -24,6 +24,8 @@ repositories {
 }
 
 dependencies {
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     // HTTP Servlet
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
     // AOP
