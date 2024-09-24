@@ -1,7 +1,6 @@
 package com.sparta.orderapp.service.reviewservice;
 
 import com.sparta.orderapp.TestUtil;
-import com.sparta.orderapp.dto.review.pageReview.PageReviewRequest;
 import com.sparta.orderapp.dto.review.pageReview.PageReviewResponse;
 import com.sparta.orderapp.dto.review.postReview.PostReviewRequest;
 import com.sparta.orderapp.dto.review.postReview.PostReviewResponse;
@@ -58,7 +57,6 @@ public class ReviewServiceTest {
         long shopId = 1L;
         long reviewId = 1L;
         PostReviewRequest postReviewRequest = new PostReviewRequest(1L, "b", 3);
-        PageReviewRequest pageReviewRequest = new PageReviewRequest();
         AuthUser authUser = TestUtil.authUser(userId);
         Review review = TestUtil.getReview(postReviewRequest, reviewId);
 
@@ -70,7 +68,7 @@ public class ReviewServiceTest {
 
         Page<Review> reviewsPage = new PageImpl<>(reviews.stream().toList());
         given(reviewRepository.findAllByShop_ShopIdAndStarScoreBetween(any(), eq(min), eq(max), any())).willReturn(reviewsPage);
-        Page<PageReviewResponse> dto = reviewService.pageReview(page,size,min,max,shopId,pageReviewRequest);
+        Page<PageReviewResponse> dto = reviewService.pageReview(page,size,min,max,shopId);
 
         assertNotNull(dto);
     }

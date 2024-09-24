@@ -26,6 +26,11 @@ public class AuthController {
     private final KakaoService kakaoService;
     private final JwtUtil jwtUtil;
 
+    /**
+     * 유저가 회원가입을 처리할 메서드
+     * @param signupRequestDto
+     * @return 200 : Ok
+     */
     @PostMapping("/users/signup")
     public ResponseEntity<Object> signup(@RequestBody @Valid SignupRequestDto signupRequestDto) {
         authService.signUp(signupRequestDto);

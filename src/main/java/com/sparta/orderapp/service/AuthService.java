@@ -107,6 +107,11 @@ public class AuthService {
         blacklistTokenService.addBlacklistToken(token);
     }
 
+    /**
+     * KakaoId를 갖고 있는 유저를 조회하는 메서드
+     * @param kakaoId kakao Id
+     * @return null : 해당 유저가 존재하지 않음
+     */
     @Transactional(readOnly = true)
     public User findByKakaoId(Long kakaoId) {
         return userRepository.findBykakaoId(kakaoId).orElse(null);
