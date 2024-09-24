@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/shop")
+@RequestMapping("/api/shops")
 @RequiredArgsConstructor
 public class ReviewController {
 
@@ -42,7 +42,7 @@ public class ReviewController {
      * @return 리뷰 페이징 결과물
      */
     @GetMapping("/{shopId}/reviews")
-    public ResponseEntity<Page<PageReviewResponse>> pageReview(@RequestParam (defaultValue = "0", required = false)int page,
+    public ResponseEntity<Page<PageReviewResponse>> pageReview(@RequestParam (defaultValue = "1", required = false)int page,
                            @RequestParam (defaultValue = "10", required = false)int size,
                            @RequestParam (defaultValue = "0", required = false)int min,
                            @RequestParam (defaultValue = "5", required = false)int max,
