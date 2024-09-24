@@ -2,7 +2,6 @@ package com.sparta.orderapp.service.authservice;
 
 import com.sparta.orderapp.TestUtil;
 import com.sparta.orderapp.config.PasswordEncoder;
-import com.sparta.orderapp.dto.sign.SignupRequestDto;
 import com.sparta.orderapp.dto.user.KakaoUserDto;
 import com.sparta.orderapp.entity.User;
 import com.sparta.orderapp.exception.DuplicateEmailException;

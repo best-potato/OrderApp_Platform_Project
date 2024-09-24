@@ -1,7 +1,10 @@
 package com.sparta.orderapp.controller;
 
 import com.sparta.orderapp.annotation.Auth;
-import com.sparta.orderapp.dto.menu.*;
+import com.sparta.orderapp.dto.menu.CreateMenuResponseDto;
+import com.sparta.orderapp.dto.menu.DeleteMenuResponseDto;
+import com.sparta.orderapp.dto.menu.MenuRequestDto;
+import com.sparta.orderapp.dto.menu.UpdateMenuResponseDto;
 import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.service.MenuService;
 import lombok.RequiredArgsConstructor;

@@ -5,10 +5,8 @@ import com.sparta.orderapp.dto.review.pageReview.PageReviewRequest;
 import com.sparta.orderapp.dto.review.pageReview.PageReviewResponse;
 import com.sparta.orderapp.dto.review.postReview.PostReviewRequest;
 import com.sparta.orderapp.dto.review.postReview.PostReviewResponse;
-import com.sparta.orderapp.dto.shop.ShopRequestDto;
 import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.entity.Review;
-import com.sparta.orderapp.entity.Shop;
 import com.sparta.orderapp.repository.ReviewRepository;
 import com.sparta.orderapp.service.ReviewService;
 import org.junit.jupiter.api.Test;
@@ -21,9 +19,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;

@@ -6,7 +6,6 @@ import com.sparta.orderapp.dto.orders.postOrders.PostOrdersRequest;
 import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.entity.Orders;
 import com.sparta.orderapp.entity.UserRole;
-import com.sparta.orderapp.exception.BadRequestException;
 import com.sparta.orderapp.repository.OrdersRepository;
 import com.sparta.orderapp.repository.PopularShopRepository;
 import lombok.RequiredArgsConstructor;

@@ -2,10 +2,7 @@ package com.sparta.orderapp.service.orderservice;
 
 import com.sparta.orderapp.TestUtil;
 import com.sparta.orderapp.dto.orders.postOrders.PostOrdersRequest;
-import com.sparta.orderapp.dto.review.postReview.PostReviewRequest;
-import com.sparta.orderapp.dto.review.postReview.PostReviewResponse;
 import com.sparta.orderapp.dto.user.AuthUser;
-import com.sparta.orderapp.entity.Review;
 import com.sparta.orderapp.repository.OrdersRepository;
 import com.sparta.orderapp.repository.PopularShopRepository;
 import com.sparta.orderapp.service.OrdersService;
@@ -15,9 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 

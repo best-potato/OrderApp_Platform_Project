@@ -7,7 +7,6 @@ import com.sparta.orderapp.dto.review.postReview.PostReviewRequest;
 import com.sparta.orderapp.dto.review.postReview.PostReviewResponse;
 import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.service.ReviewService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;

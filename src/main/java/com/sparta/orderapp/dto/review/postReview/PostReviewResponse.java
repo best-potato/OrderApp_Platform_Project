@@ -1,7 +1,6 @@
 package com.sparta.orderapp.dto.review.postReview;
 
 import com.sparta.orderapp.entity.Review;
-import jakarta.persistence.Column;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

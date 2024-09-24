@@ -2,7 +2,6 @@ package com.sparta.orderapp.config;
 
 import com.sparta.orderapp.annotation.Auth;
 import com.sparta.orderapp.dto.user.AuthUser;
-import com.sparta.orderapp.entity.User;
 import com.sparta.orderapp.entity.UserRole;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;

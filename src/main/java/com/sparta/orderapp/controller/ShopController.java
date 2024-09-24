@@ -4,7 +4,6 @@ import com.sparta.orderapp.dto.shop.ShopResponseDto;
 import com.sparta.orderapp.dto.shop.ShopSingleRetrievalResponseDto;
 import com.sparta.orderapp.service.ShopService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

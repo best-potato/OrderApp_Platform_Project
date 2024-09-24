@@ -6,8 +6,6 @@ import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.entity.*;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
 public class TestUtil {
     public static User getUser() {
         return new User("a@b.com", "password", "Names", "OWNER");
