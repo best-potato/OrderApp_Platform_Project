@@ -2,7 +2,6 @@ package com.sparta.orderapp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sparta.orderapp.service.KakaoService;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

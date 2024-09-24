@@ -3,24 +3,18 @@ package com.sparta.orderapp.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nimbusds.oauth2.sdk.token.AccessToken;
 import com.sparta.orderapp.config.JwtUtil;
 import com.sparta.orderapp.config.utility.KakaoConnetUtility;
 import com.sparta.orderapp.dto.user.KakaoUserDto;
 import com.sparta.orderapp.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.apache.bcel.classfile.Code;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import java.net.URI;
 
 @Slf4j
 @RequiredArgsConstructor
