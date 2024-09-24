@@ -45,7 +45,7 @@ public class AuthService {
         }
 
         //비밀번호 일치하는지 확인
-        if(passwordEncoder.matches(requestDto.getPassword(), user.getPassword())){
+        if(!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())){
             throw new WrongPasswordException();
         }
 
@@ -87,29 +87,6 @@ public class AuthService {
         User user = new User(kakaoUserDto, encodePassword);
         return userRepository.save(user);
     }
-    /**
-     * Id로 유저 정보를 찾는 메서드
-     * @param id 찾고자 하는 유저 Id
-     * @return 검색 결과
-     */
-    @Transactional(readOnly = true)
-    public User findById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-
-        return user.orElseThrow(NoSignedUserException::new);
-    }
-
-    /**
-     * Email로 유저 정보를 찾는 메서드
-     * @param email 찾고자 하는 유저 email
-     * @return 검색 결과
-     */
-    @Transactional(readOnly = true)
-    public User findByEmail(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-
-        return user.orElseThrow(NoSignedUserException::new);
-    }
 
     /**
      * 유저를 삭제하고 BlacklistToken에 데이터를 추가하는 메서드
@@ -122,7 +99,7 @@ public class AuthService {
         User userToDelete = userRepository.findById(user.getId()).orElseThrow(NoSignedUserException::new);
 
         // 비밀번호가 틀린 경우 에러
-        if (passwordEncoder.matches(requestDto.getPassword(), userToDelete.getPassword())) {
+        if (!passwordEncoder.matches(requestDto.getPassword(), userToDelete.getPassword())) {
             throw new WrongPasswordException();
         }
 

@@ -34,10 +34,4 @@ public class ReviewService {
         Page<Review> reviews = reviewRepository.findAllByShop_ShopIdAndStarScoreBetween(shopId, min, max, pageable);
         return reviews.map(PageReviewResponse::new);
     }
-
-
-    public void test(){
-//        reviewRepository.findAllBy
-
-    }
 }
