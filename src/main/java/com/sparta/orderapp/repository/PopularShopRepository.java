@@ -45,6 +45,35 @@ public class PopularShopRepository {
                 .map(Map.Entry::getKey) // 키만 추출
                 .collect(Collectors.toList());
     }
+    // 주간 판매왕 랭킹 검색
+    // 이건 판매 수까지 나옴
+    public Map<Long, Long> countAndSort() {
+
+        String popularShop = "popularShop:" + date;
+
+        // Redis에서 모든 데이터를 가져오기
+        List<Object> userIdList = redisTemplate.opsForList().range(popularShop, 0, -1);
+
+        if (userIdList == null) {
+            return Collections.emptyMap();
+        }
+
+        // ID 카운트하기
+        Map<Long, Long> countMap = userIdList.stream()
+                .map(id -> Long.valueOf(id.toString())) // Object를 Long으로 변환
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        // 카운트 결과를 많은 순서대로 정렬
+        return countMap.entrySet().stream()
+                .sorted(Map.Entry.<Long, Long>comparingByValue(Comparator.reverseOrder()))
+                .limit(10)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+    }
 
 
 }
