@@ -49,8 +49,14 @@ public class OrdersService {
 
     // 주문 상태 변경
     public void changeOrdersStatus(Long ordersId, AuthUser authUser, AcceptOrdersRequest reqDto){
-        if(reqDto.getOrdersStatus()==null){
-            throw new BadRequestException("상태를 입력하세요.");
+        if(reqDto.getOrdersStatus()==null||reqDto.getOrdersStatus()>5||reqDto.getOrdersStatus()<0){
+            throw new BadRequestException("올바른 상태를 입력하세요. \n" +
+                    "0 : 주문 요청, \n" +
+                    "1 : 주문 수락, \n" +
+                    "2 : 조리 중, \n" +
+                    "3 : 배달 중, \n" +
+                    "4 : 배달 완료, \n" +
+                    "5 : 주문 취소");
         }
 
         // 일반 유저가 주문 상태 변경을 하려는 경우
@@ -58,7 +64,8 @@ public class OrdersService {
             throw new ForbiddenException("권한이 없습니다. : 일반 사용자");
         }
 
-        Orders orders =ordersRepository.findById(ordersId).orElseThrow(() -> new BadRequestException("해당 주문을 찾을 수 없습니다."));
+        Orders orders =ordersRepository.findById(ordersId).orElseThrow(
+                () -> new BadRequestException("해당 주문을 찾을 수 없습니다."));
 
         // 본인 가게의 주문이 아닌 경우
         if(orders.getShop().getOwner().getId() != authUser.getId()){
@@ -69,7 +76,7 @@ public class OrdersService {
         ordersRepository.save(orders);
 
         if(reqDto.getOrdersStatus() == 4){
-            popularShopRepository.incrementScore(orders.getShop().getShopId());
+            popularShopRepository.orderCompleteShop(orders.getShop().getShopId());
         }
     }
 
