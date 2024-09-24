@@ -7,6 +7,7 @@ import com.sparta.orderapp.entity.User;
 import com.sparta.orderapp.exception.DuplicateEmailException;
 import com.sparta.orderapp.repository.UserRepository;
 import com.sparta.orderapp.service.AuthService;
+import com.sparta.orderapp.service.KakaoService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,6 +27,9 @@ public class AuthServiceKakaoTest {
     @InjectMocks
     private AuthService authService;
 
+    @InjectMocks
+    private KakaoService kakaoService;
+
     @Mock
     private UserRepository userRepository;
 
@@ -40,7 +44,7 @@ public class AuthServiceKakaoTest {
         given(userRepository.findByEmail(kakaoUserDto.getEmail())).willReturn(Optional.of(user));
 
         DuplicateEmailException exception = assertThrows(DuplicateEmailException.class,
-                () -> authService.signUpUseKakao(kakaoUserDto));
+                () -> kakaoService.signUpUseKakao(kakaoUserDto));
 
         assertEquals("이미 사용중인 이메일 입니다.", exception.getMessage());
     }
@@ -52,7 +56,7 @@ public class AuthServiceKakaoTest {
 
         given(userRepository.findByEmail(kakaoUserDto.getEmail())).willReturn(Optional.empty());
 
-        authService.signUpUseKakao(kakaoUserDto);
+        kakaoService.signUpUseKakao(kakaoUserDto);
 
         verify(userRepository, times(1)).save(any());
     }
@@ -63,7 +67,7 @@ public class AuthServiceKakaoTest {
 
         given(userRepository.findBykakaoId(kakaoId)).willReturn(Optional.empty());
 
-        User result = authService.findByKakaoId(kakaoId);
+        User result = kakaoService.findByKakaoId(kakaoId);
 
         assertNull(result);
     }

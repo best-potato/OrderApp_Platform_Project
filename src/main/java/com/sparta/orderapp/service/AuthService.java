@@ -1,5 +1,6 @@
 package com.sparta.orderapp.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sparta.orderapp.config.JwtUtil;
 import com.sparta.orderapp.config.PasswordEncoder;
 import com.sparta.orderapp.dto.sign.DeleteAccountRequestDto;
@@ -29,6 +30,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final BlacklistTokenService blacklistTokenService;
     private final JwtUtil jwtUtil;
+    private final KakaoService kakaoService;
 
     /**
      * 유저가 기입한 정보를 토대로 토큰을 발행하는 메서드
@@ -37,7 +39,7 @@ public class AuthService {
      */
     public String login(LoginRequestDto requestDto) {
         //입력된 이메일로 유저찾기
-        User user = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(() -> new NoSignedUserException());
+        User user = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(NoSignedUserException::new);
 
         //탈퇴유저 로그인 방지
         if(user.getUser_status().equals(UserStatusEnum.DISABLE)) {
@@ -73,20 +75,7 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    @Transactional
-    public User signUpUseKakao(KakaoUserDto kakaoUserDto) {
-        Optional<User> foundUser = userRepository.findByEmail(kakaoUserDto.getEmail());
 
-        if (foundUser.isPresent()) {
-            throw new DuplicateEmailException();
-        }
-
-        String password = UUID.randomUUID().toString();
-        String encodePassword = passwordEncoder.encode(password);
-
-        User user = new User(kakaoUserDto, encodePassword);
-        return userRepository.save(user);
-    }
 
     /**
      * 유저를 삭제하고 BlacklistToken에 데이터를 추가하는 메서드
@@ -95,11 +84,13 @@ public class AuthService {
      * @param requestDto 유저가 기입한 비밀번호
      */
     @Transactional
-    public void deleteAccount(String token, AuthUser user, DeleteAccountRequestDto requestDto) {
+    public void deleteAccount(String token, AuthUser user, DeleteAccountRequestDto requestDto) throws JsonProcessingException {
         User userToDelete = userRepository.findById(user.getId()).orElseThrow(NoSignedUserException::new);
+        boolean iskakao = isKakaoUser(userToDelete);
 
-        // 비밀번호가 틀린 경우 에러
-        if (!passwordEncoder.matches(requestDto.getPassword(), userToDelete.getPassword())) {
+        if(iskakao) {
+            kakaoService.unLink(userToDelete.getKakaoId());
+        } else if (!passwordEncoder.matches(requestDto.getPassword(), userToDelete.getPassword())) {
             throw new WrongPasswordException();
         }
 
@@ -107,14 +98,8 @@ public class AuthService {
         blacklistTokenService.addBlacklistToken(token);
     }
 
-    /**
-     * KakaoId를 갖고 있는 유저를 조회하는 메서드
-     * @param kakaoId kakao Id
-     * @return null : 해당 유저가 존재하지 않음
-     */
-    @Transactional(readOnly = true)
-    public User findByKakaoId(Long kakaoId) {
-        return userRepository.findBykakaoId(kakaoId).orElse(null);
+    private boolean isKakaoUser(User user) {
+        return user.getKakaoId() != null;
     }
 }
 

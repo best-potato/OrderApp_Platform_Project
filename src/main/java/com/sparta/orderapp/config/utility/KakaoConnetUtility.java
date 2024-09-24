@@ -17,6 +17,7 @@ public class KakaoConnetUtility {
     private final String USER_INFO_URI_STRING = "https://kapi.kakao.com";
     // 유저 정보를 불러오는 Path URI
     private final String USER_INFO_PATH = "/v2/user/me";
+    private final String USER_UNLINK_PATH = "/v1/user/unlink";
 
     // Token을 받아오는 시작 URI
     private final String TOKEN_URI_STRING = "https://kauth.kakao.com";
@@ -33,6 +34,8 @@ public class KakaoConnetUtility {
     @Value("${client_id}")
     private String clientId;
 
+    @Value("${Admin_Key}")
+    private String adminKey;
     /**
      * 유저 정보를 얻어내기 위한 Request를 조립하는 메서드
      * @param accessToken 정보를 얻을 유저의 accessToken
@@ -48,6 +51,27 @@ public class KakaoConnetUtility {
                 .post(uri)
                 .headers(headers)
                 .body(new LinkedMultiValueMap<>());
+    }
+
+    /**
+     * 유저가 탈퇴할 경우 Kakao에게 전송할 Request를 조립하는 메서드
+     * @param kakaoId 탈퇴할 유저의 Id
+     * @return 조립된 RequestEntity
+     */
+    public RequestEntity<MultiValueMap<String, String>> getUnlinkRequestEntity(long kakaoId) {
+        URI uri = getUserUnlinkURI();
+
+        HttpHeaders headers = getContentHeader();
+        headers.add("Authorization", "KakaoAK " + adminKey);
+
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("target_id_type", "user_id");
+        map.add("target_id", String.valueOf(kakaoId));
+
+        return RequestEntity
+                .post(uri)
+                .headers(headers)
+                .body(map);
     }
 
     /**
@@ -71,6 +95,8 @@ public class KakaoConnetUtility {
                 .headers(headers)
                 .body(map);
     }
+
+
 
     /**
      * User의 Token을 얻기 위한 RequestEntity를 반환하는 메서드
@@ -99,6 +125,14 @@ public class KakaoConnetUtility {
     }
 
     /**
+     * 회원 탈퇴 URI 주소를 반환하는 메서드
+     * @return 회원 탈퇴할 URI
+     */
+    public URI getUserUnlinkURI() {
+        return getKakaoUri(USER_INFO_URI_STRING, USER_UNLINK_PATH);
+    }
+
+    /**
      * Token을 전해 받을 URI를 반환하는 메서드
      * @return 해당 유저의 유저 정보를 조회할 URI
      */
@@ -112,7 +146,7 @@ public class KakaoConnetUtility {
      */
     private HttpHeaders getContentHeader() {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+        headers.add("Content-Type", "application/x-www-form-urlencoded");
         return headers;
     }
 

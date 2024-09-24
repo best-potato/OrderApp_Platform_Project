@@ -1,5 +1,6 @@
 package com.sparta.orderapp.service.authservice;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sparta.orderapp.TestUtil;
 import com.sparta.orderapp.config.PasswordEncoder;
 import com.sparta.orderapp.dto.sign.DeleteAccountRequestDto;
@@ -75,7 +76,7 @@ public class AuthServiceDeleteAccountTest {
     }
 
     @Test
-    public void 회원탈퇴에_성공한다() {
+    public void 회원탈퇴에_성공한다() throws JsonProcessingException {
         long userId = 1L;
         String token = "token";
         DeleteAccountRequestDto deleteAccountRequestDto = new DeleteAccountRequestDto("1234");

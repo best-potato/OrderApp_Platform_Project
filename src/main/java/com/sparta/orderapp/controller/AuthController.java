@@ -55,7 +55,7 @@ public class AuthController {
      * @return 200 : 삭제 성공
      */
     @DeleteMapping("/users")
-    public ResponseEntity<Object> deleteAccount(@Auth AuthUser user, HttpServletRequest httpServletRequest, @RequestBody DeleteAccountRequestDto requestDto) {
+    public ResponseEntity<Object> deleteAccount(@Auth AuthUser user, HttpServletRequest httpServletRequest, @RequestBody DeleteAccountRequestDto requestDto) throws JsonProcessingException {
         String token = httpServletRequest.getHeader("Authorization");
         String jwt = jwtUtil.substringToken(token);
         authService.deleteAccount(jwt, user, requestDto);
