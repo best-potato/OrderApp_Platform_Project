@@ -66,6 +66,9 @@ public class OrdersService {
 
         Orders orders =ordersRepository.findById(ordersId).orElseThrow(
                 () -> new BadRequestException("해당 주문을 찾을 수 없습니다."));
+        if(orders==null){
+            throw new BadRequestException("해당 주문을 찾을 수 없습니다.");
+        }
 
         // 본인 가게의 주문이 아닌 경우
         if(orders.getShop().getOwner().getId() != authUser.getId()){
