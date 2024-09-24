@@ -7,6 +7,8 @@ import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.entity.Orders;
 import com.sparta.orderapp.entity.UserRole;
 import com.sparta.orderapp.exception.BadRequestException;
+import com.sparta.orderapp.exception.ForbiddenException;
+import com.sparta.orderapp.exception.NoSignedUserException;
 import com.sparta.orderapp.repository.OrdersRepository;
 import com.sparta.orderapp.repository.PopularShopRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,38 +33,37 @@ public class OrdersService {
     // 주문 조회
     // 본인의 주문만 조회 가능
     public InquiryOrdersResponse inquiryOrders(Long ordersId, AuthUser authUser){
-        Orders orders =ordersRepository.findById(ordersId).orElse(null); // 에러 헨들러 구현 후, 예외 처리 예정
-//        // 주문 당사자가 맞는 경우 예외 처리
-//        if(orders.getUser().getId() != authUser.getId()){
-//
-//        }
+        Orders orders =ordersRepository.findById(ordersId).orElseThrow(() -> new BadRequestException("해당 주문을 찾을 수 없습니다."));
+
+        // 본인의 주문이 아닌 경우
+        if(orders.getUser().getId() != authUser.getId()){
+            throw new ForbiddenException("권한이 없습니다. : 타인의 주문");
+        }
 
         return new InquiryOrdersResponse(orders);
     }
 
 
     // 주문 상태 변경
-    public int changeOrdersStatus(Long ordersId, AuthUser authUser, AcceptOrdersRequest reqDto){
+    public void changeOrdersStatus(Long ordersId, AuthUser authUser, AcceptOrdersRequest reqDto){
         // 일반 유저가 주문 상태 변경을 하려는 경우
         if(!authUser.getUserRole().equals(UserRole.OWNER)){
-            return 0; // 나중에 예외 처리
+            throw new ForbiddenException("권한이 없습니다. : 일반 사용자");
         }
 
+        Orders orders =ordersRepository.findById(ordersId).orElseThrow(() -> new BadRequestException("해당 주문을 찾을 수 없습니다."));
+
         // 본인 가게의 주문이 아닌 경우
-        Orders orders =ordersRepository.findById(ordersId).orElse(null);
         if(orders.getShop().getOwner().getId() != authUser.getId()){
-            return 0; // 나중에 예외 처리
+            throw new ForbiddenException("권한이 없습니다. : 타인의 가게");
         }
 
         orders.changeOrderStatus(reqDto.getOrdersStatus());
         ordersRepository.save(orders);
 
         if(reqDto.getOrdersStatus() == 4){
-            popularShopRepository.saveOrder(orders.getShop().getShopId());
+            popularShopRepository.incrementScore(orders.getShop().getShopId());
         }
-
-
-        return 1;
     }
 
 }

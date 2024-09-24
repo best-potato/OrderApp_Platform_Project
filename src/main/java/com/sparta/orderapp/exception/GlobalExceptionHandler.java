@@ -55,6 +55,11 @@ public class GlobalExceptionHandler {
         return ApiResponse.createError(e.getMessage(), HttpStatus.BAD_REQUEST.value());
     }
 
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<String> ForbiddenException(ForbiddenException ex) {
+        return ResponseEntity.status(403).body(ex.getMessage());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
