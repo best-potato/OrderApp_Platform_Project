@@ -116,7 +116,9 @@ public class JwtFilter implements Filter {
         String url = request.getRequestURI();
         // 유저 관련 Post 메서드와 shop 관련 Get 메서드는 Jwt 인증 없이도 동작해야 한다.
         return (request.getMethod().equals("POST") && url.startsWith("/api/users"))
-                || (request.getMethod().equals("GET") && url.startsWith("/api/shops"));
+                || (request.getMethod().equals("GET") && url.startsWith("/api/shops"))
+                || (request.getMethod().equals("GET") && url.startsWith("/api/users/kakao"))
+                || (request.getMethod().equals("GET") && url.startsWith("/api/owners/kakao"));
     }
 
     /**

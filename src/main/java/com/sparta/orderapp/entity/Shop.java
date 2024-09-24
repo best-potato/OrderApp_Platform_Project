@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "shop")
@@ -20,7 +19,7 @@ public class Shop extends Timestamped{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long shopId;
 
-    @Column(nullable = false, length = 20)
+    @Column(unique = true, nullable = false, length = 20)
     private String shopName;
     @Column(nullable = false, length = 20)
     private String openTime;
@@ -28,18 +27,19 @@ public class Shop extends Timestamped{
     private String closeTime;
     @Column(nullable = false)
     private int minOrderPrice;
-    private boolean status;
+    @Enumerated(EnumType.STRING) // Enum 값을 문자열로 저장
+    private ShopStatus shopStatus = ShopStatus.OPEN;  // Enum 타입으로 변경, 필드명도 소문자로 변경
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
     private List<Orders> orders = new ArrayList<>();
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY) //LAZY로 변경, 메뉴 목록은 필요할 때 별도의 쿼리로 가져옵니다.
     private List<Menu> menus = new ArrayList<>();
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
     private List<Review> reviews = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false) // user_id -> owner_id
     private User owner; // 사장님
 
@@ -52,7 +52,7 @@ public class Shop extends Timestamped{
         this.closeTime = shopRequestDto.getCloseTime();
         this.openTime = shopRequestDto.getOpenTime();
         this.owner = user;
-        this.status = true; // 정상영업 : 1
+        this.shopStatus = ShopStatus.OPEN; // 정상영업 : 1
         this.shopName = shopRequestDto.getShopName();
         this.minOrderPrice = shopRequestDto.getMinOrderPrice();
     }
@@ -63,4 +63,10 @@ public class Shop extends Timestamped{
         this.minOrderPrice = requestDto.getMinOrderPrice();
         this.shopName = requestDto.getShopName();
     }
+
+    // 상태 변경 메서드
+    public void setShopStatus(ShopStatus status) {
+        this.shopStatus = status;
+    }
+
 }

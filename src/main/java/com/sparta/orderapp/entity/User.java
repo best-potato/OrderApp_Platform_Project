@@ -1,7 +1,9 @@
 package com.sparta.orderapp.entity;
 
 import com.sparta.orderapp.dto.sign.SignupRequestDto;
+import com.sparta.orderapp.dto.user.KakaoUserDto;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,7 +19,7 @@ public class User extends Timestamped{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, length = 255)
+    @Column(unique = false, length = 255)
     private String email;
     @Column(nullable = false, length = 255)
     private String password;
@@ -25,6 +27,9 @@ public class User extends Timestamped{
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, length = 100)
     private UserStatusEnum user_status = UserStatusEnum.ABLE;
+
+    @Column(nullable = true)
+    private Long kakaoId;
 
     @Column(unique = true,length = 100)
     private String name;
@@ -47,6 +52,22 @@ public class User extends Timestamped{
         this.name = requestDto.getName();
         this.userRole = requestDto.getRole();
     }
+
+    public User(KakaoUserDto kakaoUserDto, String password) {
+        this.email = kakaoUserDto.getEmail();
+        this.name = kakaoUserDto.getNickname();
+        this.password = password;
+        this.userRole = kakaoUserDto.getUserRole();
+        this.kakaoId = kakaoUserDto.getId();
+    }
+
+    public User(String email, String password, String name, String userRole) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.userRole = userRole;
+    }
+
     public User(Long id){
         this.id = id;
     }

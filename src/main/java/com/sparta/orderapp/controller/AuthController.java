@@ -1,6 +1,7 @@
 package com.sparta.orderapp.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sparta.orderapp.annotation.Auth;
 import com.sparta.orderapp.config.JwtUtil;
 import com.sparta.orderapp.dto.sign.DeleteAccountRequestDto;
@@ -8,7 +9,10 @@ import com.sparta.orderapp.dto.sign.SignupRequestDto;
 import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.dto.user.LoginRequestDto;
 import com.sparta.orderapp.service.AuthService;
+import com.sparta.orderapp.service.KakaoService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final KakaoService kakaoService;
     private final JwtUtil jwtUtil;
 
     @PostMapping("/users/signup")
@@ -53,6 +58,17 @@ public class AuthController {
         authService.deleteAccount(jwt, user, requestDto);
 
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    /**
+     * 카카오 유저로 로그인하는 메서드
+     * @param code 로그인 URI 코드
+     * @return 로그인 후 JwtToken 반환
+     */
+    @GetMapping("/users/kakao")
+    public ResponseEntity<Object> kakaoUserLogin(@RequestParam String code) throws JsonProcessingException {
+        String token = kakaoService.kakaoUserLogin(code);
+        return ResponseEntity.status(HttpStatus.OK).header("Authorization",token).build();
     }
 
     /**

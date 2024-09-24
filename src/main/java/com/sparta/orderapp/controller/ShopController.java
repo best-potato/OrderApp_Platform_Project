@@ -1,6 +1,7 @@
 package com.sparta.orderapp.controller;
 
 import com.sparta.orderapp.dto.shop.ShopResponseDto;
+import com.sparta.orderapp.dto.shop.ShopSingleRetrievalResponseDto;
 import com.sparta.orderapp.service.ShopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,9 +17,10 @@ import java.util.List;
 public class ShopController {
     private final ShopService shopService;
 
+
     // 가게 단건 조회
     @GetMapping("/users/shops/{shopId}")
-    public ShopResponseDto getShop(@PathVariable Long shopId) {
+    public ShopSingleRetrievalResponseDto getShop(@PathVariable Long shopId) {
         return shopService.getShop(shopId);
     }
 
@@ -28,9 +30,12 @@ public class ShopController {
      * @return 가게 다건 조회
      */
     @GetMapping("/users/shops")
-    public ResponseEntity<Page<ShopResponseDto>> getShops(@RequestParam(defaultValue = "1", required = false) int page,
-                                                          @RequestParam(defaultValue = "10", required = false) int size) {
-        return ResponseEntity.ok(shopService.getShops(page, size));
+    public ResponseEntity<List<ShopResponseDto>> getOpenShops(
+            @RequestParam(defaultValue = "1", required = false) int page,
+            @RequestParam(defaultValue = "10", required = false) int size) {
+
+        // 결과 반환 (Page 형식 그대로 반환)
+        return ResponseEntity.ok(shopService.getOpenShops(page - 1, size));
     }
 
 }
