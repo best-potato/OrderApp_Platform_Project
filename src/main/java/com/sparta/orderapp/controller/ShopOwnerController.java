@@ -5,16 +5,11 @@ import com.sparta.orderapp.dto.shop.ShopRequestDto;
 import com.sparta.orderapp.dto.shop.ShopResponseDto;
 import com.sparta.orderapp.dto.shop.ShopSingleRetrievalResponseDto;
 import com.sparta.orderapp.dto.user.AuthUser;
-import com.sparta.orderapp.entity.Shop;
 import com.sparta.orderapp.exception.BadRequestException;
-import com.sparta.orderapp.exception.GlobalExceptionHandler;
 import com.sparta.orderapp.service.ShopService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

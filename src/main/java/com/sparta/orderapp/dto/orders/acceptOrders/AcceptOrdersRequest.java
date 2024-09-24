@@ -4,6 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class AcceptOrdersRequest {
-    private int ordersStatus;
+    private Integer ordersStatus;
 
 }

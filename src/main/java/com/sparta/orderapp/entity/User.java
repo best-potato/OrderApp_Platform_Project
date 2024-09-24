@@ -1,8 +1,8 @@
 package com.sparta.orderapp.entity;
 
 import com.sparta.orderapp.dto.sign.SignupRequestDto;
+import com.sparta.orderapp.dto.user.KakaoUserDto;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -50,6 +50,14 @@ public class User extends Timestamped{
         this.password = password;
         this.name = requestDto.getName();
         this.userRole = requestDto.getRole();
+    }
+
+    public User(KakaoUserDto kakaoUserDto, String password) {
+        this.email = kakaoUserDto.getEmail();
+        this.name = kakaoUserDto.getNickname();
+        this.password = password;
+        this.userRole = kakaoUserDto.getUserRole();
+        this.kakaoId = kakaoUserDto.getId();
     }
 
     public User(String email, String password, String name, String userRole) {

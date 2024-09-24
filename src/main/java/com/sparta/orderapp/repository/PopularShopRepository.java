@@ -5,27 +5,46 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Repository
 public class PopularShopRepository {
-    private final String KEY = "PopularShop";
+    private final String date = LocalDate.now().toString();
+    private final String KEY = "popularShop:"+date;
     private final RedisTemplate<String, Object> redisTemplate;
 
-    // Sorted Set에 주문 저장
-    public void saveOrder(Long shopId) {
-        redisTemplate.opsForZSet().add(KEY, shopId, 1);
-
+    public void orderCompleteShop(Long shopId) {
+        redisTemplate.opsForList().rightPush(KEY, shopId);
+        redisTemplate.expire(KEY, 1, TimeUnit.DAYS);
     }
 
-    // 증가
-    public void incrementScore(PopularShop popularShop){
-        redisTemplate.opsForZSet().incrementScore(KEY, popularShop.getShopId(),1);
+    // 인기 가게 랭킹
+    public List<Long> popularShopsRank() {
+
+        // Redis에서 모든 데이터를 가져오기
+        List<Object> userIdList = redisTemplate.opsForList().range(KEY, 0, -1);
+
+        if (userIdList == null) {
+            return Collections.emptyList();
+        }
+
+        // ID 카운트하기
+        Map<Long, Long> countMap = userIdList.stream()
+                .map(id -> Long.valueOf(id.toString())) // Object를 Long으로 변환
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        // 카운트 결과를 많은 순서대로 정렬하고 상위 10개의 키만 추출
+        return countMap.entrySet().stream()
+                .sorted(Map.Entry.<Long, Long>comparingByValue(Comparator.reverseOrder()))
+                .limit(10) // 상위 10개만 가져오기
+                .map(Map.Entry::getKey) // 키만 추출
+                .collect(Collectors.toList());
     }
 
-    // 상위 10개의 주문 조회 (내림차순)
-    public Set<Object> getTop10Orders() {
-        return redisTemplate.opsForZSet().reverseRange(KEY, 0, 9);
-    }
+
 }

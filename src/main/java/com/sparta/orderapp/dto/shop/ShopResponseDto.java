@@ -1,11 +1,7 @@
 package com.sparta.orderapp.dto.shop;
 
-import com.sparta.orderapp.dto.menu.GetMenuResponseDto;
 import com.sparta.orderapp.entity.Shop;
 import lombok.Getter;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 public class ShopResponseDto {
