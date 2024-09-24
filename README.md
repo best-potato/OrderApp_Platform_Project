@@ -8,6 +8,19 @@
 
 **→ 우리들이 자주 접하는 바로 그 배달 주문 어플리케이션입니다. 평소 사용하던 경험을 바탕으로 클라이언트에게 최고의 프로젝트를 전달하세요!**
 
+
+## 와이어프레임
+
+<img width="730" alt="스크린샷 2024-09-19 오후 3 57 10" src="https://github.com/user-attachments/assets/d32f455a-4e52-440b-b8b7-6039c78e42c0">
+
+
+## ERD
+
+<img width="955" alt="image" src="https://github.com/user-attachments/assets/095796a4-64fc-4186-9aa9-70caea0fc196">
+
+
+
+
 ## 1️⃣  개발 프로세스 가이드
 
 ### **0단계 : 목표 정하기! (Growth Mindset)**
@@ -342,15 +355,5 @@ entity끼리의 관계 설정하기
     - 허용되지 않는 파일 형식은 업로드할 수 없습니다.
     - 파일 크기가 설정된 제한을 초과할 경우 업로드가 불가합니다.
  
-
-
-## 와이어프레임
-
-<img width="730" alt="스크린샷 2024-09-19 오후 3 57 10" src="https://github.com/user-attachments/assets/d32f455a-4e52-440b-b8b7-6039c78e42c0">
-
-
-## ERD
-
-<img width="955" alt="image" src="https://github.com/user-attachments/assets/095796a4-64fc-4186-9aa9-70caea0fc196">
 
 
