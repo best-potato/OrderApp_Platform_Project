@@ -3,7 +3,7 @@ package com.sparta.orderapp.controller;
 import com.sparta.orderapp.annotation.Auth;
 import com.sparta.orderapp.dto.cart.CartCache;
 import com.sparta.orderapp.dto.user.AuthUser;
-import com.sparta.orderapp.service.CartService;
+import com.sparta.orderapp.service.CartCacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +12,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/cart")
-public class CartController {
+public class CartCacheController {
 
-    private final CartService cartService;
+    private final CartCacheService cartCacheService;
 
     /**
      * 장바구니에 메뉴들을 담는 메서드
@@ -25,7 +25,7 @@ public class CartController {
      */
     @PostMapping("/shops/{shopId}")
     public CartCache addItemToCart(@Auth AuthUser authUser, @PathVariable Long shopId, @RequestBody List<Long> menuIds) {
-        return cartService.addItemToCart(authUser, shopId, menuIds);
+        return cartCacheService.addItemToCart(authUser, shopId, menuIds);
     }
 
     /**
@@ -35,7 +35,7 @@ public class CartController {
      */
     @GetMapping
     public List<Object> getCartItems(@Auth AuthUser authUser) {
-        return cartService.getCartItems(authUser);
+        return cartCacheService.getCartItems(authUser);
     }
 
     /**
@@ -44,7 +44,7 @@ public class CartController {
      */
     @DeleteMapping
     public void clearCart(@Auth AuthUser authUser) {
-        cartService.clearCart(authUser);
+        cartCacheService.clearCart(authUser);
     }
 
 

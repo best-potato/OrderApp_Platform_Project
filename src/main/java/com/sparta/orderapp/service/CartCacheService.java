@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class CartService {
+public class CartCacheService {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public CartService(RedisTemplate<String, Object> redisTemplate) {
+    public CartCacheService(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
