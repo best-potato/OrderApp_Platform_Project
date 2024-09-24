@@ -24,9 +24,6 @@ public class OrdersController {
     // 명세서에는 메뉴에 대한 정보를 반환하게 하는데, 필요한지에 대해서 의논 필요
     @PostMapping
     public ResponseEntity<String> postOrder(@RequestBody PostOrdersRequest reqDto, @Auth AuthUser authUser) {
-        if(reqDto.getMenuId()==null || reqDto.getShopId()==null){
-            throw new BadRequestException("메뉴 또는 가게 id를 입력하세요.");
-        }
         ordersService.postOrder(reqDto, authUser);
         return ResponseEntity.ok().body("주문 완료");
     };
@@ -44,9 +41,6 @@ public class OrdersController {
     public ResponseEntity<String> changeOrdersStatus(@PathVariable Long ordersId,
                              @Auth AuthUser authUser,
                              @RequestBody AcceptOrdersRequest reqDto){
-        if(reqDto.getOrdersStatus()==null){
-            throw new BadRequestException("상태를 입력하세요.");
-        }
         ordersService.changeOrdersStatus(ordersId, authUser, reqDto);
         return ResponseEntity.ok().body("주문 상태 변경 : "+reqDto.getOrdersStatus());
     }

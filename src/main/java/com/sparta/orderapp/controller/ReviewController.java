@@ -6,6 +6,7 @@ import com.sparta.orderapp.dto.review.pageReview.PageReviewResponse;
 import com.sparta.orderapp.dto.review.postReview.PostReviewRequest;
 import com.sparta.orderapp.dto.review.postReview.PostReviewResponse;
 import com.sparta.orderapp.dto.user.AuthUser;
+import com.sparta.orderapp.exception.BadRequestException;
 import com.sparta.orderapp.service.ReviewService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -28,14 +29,13 @@ public class ReviewController {
     }
 
     @GetMapping("/{shopId}/reviews")
-    public ResponseEntity<Page<PageReviewResponse>> pageReview(@RequestParam int page,
-                           @RequestParam int size,
-                           @RequestParam int min,
-                           @RequestParam int max,
-                           @PathVariable Long shopId,
-                           @RequestBody PageReviewRequest reqDto
+    public ResponseEntity<Page<PageReviewResponse>> pageReview(@RequestParam (defaultValue = "0", required = false)int page,
+                           @RequestParam (defaultValue = "10", required = false)int size,
+                           @RequestParam (defaultValue = "0", required = false)int min,
+                           @RequestParam (defaultValue = "5", required = false)int max,
+                           @PathVariable Long shopId
                            ){
-        Page<PageReviewResponse> pageDto = reviewService.pageReview(page, size, min, max, shopId, reqDto);
+        Page<PageReviewResponse> pageDto = reviewService.pageReview(page, size, min, max, shopId);
         return ResponseEntity.ok().body(pageDto);
     }
 }

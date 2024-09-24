@@ -26,6 +26,9 @@ public class OrdersService {
 
     // 주문 생성
     public void postOrder(PostOrdersRequest reqDto, AuthUser authUser){
+        if(reqDto.getMenuId()==null || reqDto.getShopId()==null){
+            throw new BadRequestException("메뉴 또는 가게 id를 입력하세요.");
+        }
         Orders orders = new Orders(reqDto, authUser.getId());
         ordersRepository.save(orders);
     }
@@ -46,6 +49,10 @@ public class OrdersService {
 
     // 주문 상태 변경
     public void changeOrdersStatus(Long ordersId, AuthUser authUser, AcceptOrdersRequest reqDto){
+        if(reqDto.getOrdersStatus()==null){
+            throw new BadRequestException("상태를 입력하세요.");
+        }
+
         // 일반 유저가 주문 상태 변경을 하려는 경우
         if(!authUser.getUserRole().equals(UserRole.OWNER)){
             throw new ForbiddenException("권한이 없습니다. : 일반 사용자");
