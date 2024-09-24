@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "shop")
@@ -29,19 +28,18 @@ public class Shop extends Timestamped{
     @Column(nullable = false)
     private int minOrderPrice;
     @Enumerated(EnumType.STRING) // Enum 값을 문자열로 저장
-    @Column
     private ShopStatus shopStatus = ShopStatus.OPEN;  // Enum 타입으로 변경, 필드명도 소문자로 변경
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
     private List<Orders> orders = new ArrayList<>();
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY) //LAZY로 변경, 메뉴 목록은 필요할 때 별도의 쿼리로 가져옵니다.
     private List<Menu> menus = new ArrayList<>();
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
     private List<Review> reviews = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false) // user_id -> owner_id
     private User owner; // 사장님
 
@@ -67,7 +65,7 @@ public class Shop extends Timestamped{
     }
 
     // 상태 변경 메서드
-    public void setStatus(ShopStatus status) {
+    public void setShopStatus(ShopStatus status) {
         this.shopStatus = status;
     }
 

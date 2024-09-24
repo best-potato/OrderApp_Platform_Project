@@ -1,15 +1,13 @@
 package com.sparta.orderapp.service;
 
-import com.sparta.orderapp.annotation.Auth;
 import com.sparta.orderapp.dto.shop.ShopRequestDto;
 import com.sparta.orderapp.dto.shop.ShopResponseDto;
-import com.sparta.orderapp.dto.sign.SignupResponseDto;
+import com.sparta.orderapp.dto.shop.ShopSingleRetrievalResponseDto;
 import com.sparta.orderapp.dto.user.AuthUser;
 import com.sparta.orderapp.entity.Shop;
 import com.sparta.orderapp.entity.ShopStatus;
 import com.sparta.orderapp.entity.User;
 import com.sparta.orderapp.exception.NoSignedUserException;
-import com.sparta.orderapp.exception.NotFoundException;
 import com.sparta.orderapp.repository.ShopRepository;
 import com.sparta.orderapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +16,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Service
@@ -66,21 +66,21 @@ public class ShopService {
     public void closeShop(Long shopId, Long ownerId) {
         Shop shop = shopRepository.findByShopIdAndOwnerId(shopId, ownerId)
                 .orElseThrow(() -> new IllegalArgumentException("가게를 찾을 수 없습니다."));
-        shop.setStatus(ShopStatus.CLOSED);
+        shop.setShopStatus(ShopStatus.CLOSED);
     }
 
     /***
      * Shop 상태에 따라, 다건조회
      */
-    public Page<ShopResponseDto> getOpenShops(int page, int size) {
+    public List<ShopResponseDto> getOpenShops(int page, int size) {
         // Pageable 객체 생성 (페이지와 사이즈를 전달)
         Pageable pageable = PageRequest.of(page, size);
 
         // 상태가 OPEN인 가게들만 페이지네이션하여 조회
-        Page<Shop> openShopsPage = shopRepository.findAllByStatus(ShopStatus.OPEN, pageable);
+        Page<Shop> openShopsPage = shopRepository.findAllByShopStatus(ShopStatus.OPEN, pageable);
 
         // Shop 엔티티를 ShopResponseDto로 변환하여 반환
-        return openShopsPage.map(ShopResponseDto::new);
+        return openShopsPage.map(ShopResponseDto::new).stream().toList();
     }
 
 
@@ -88,12 +88,14 @@ public class ShopService {
     /***
      * Shop 단건조회
      */
-    public ShopResponseDto getShop(Long shopId) {
-        Shop shop = shopRepository.findByShopId(shopId).orElseThrow(NoSignedUserException::new);
-        return new ShopResponseDto(shop);
+    public ShopSingleRetrievalResponseDto getShop(Long shopId) {
+        Shop shop = shopRepository.findByShopId(shopId).orElseThrow(()-> new IllegalArgumentException("가게를 찾을 수 없습니다."));;
+        return new ShopSingleRetrievalResponseDto(shop);
     }
 
-    public int getShopCountByOwner(long ownerId) {
-        return shopRepository.countByOwnerId(ownerId);
+    // 사장님의 영업 중인(OPEN) 가게 수만 카운트하는 메서드
+    public int getActiveShopCount(Long ownerId) {
+        // 상태가 OPEN인 가게만 카운트
+        return shopRepository.countByOwnerIdAndShopStatus(ownerId, ShopStatus.OPEN);
     }
 }
