@@ -24,6 +24,44 @@ repositories {
 }
 
 dependencies {
+    // AWS S3
+    implementation 'software.amazon.awssdk:s3:2.20.0'
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    // HTTP Servlet
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    // AOP
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // AuthenticationPrincipal
+    testImplementation 'org.springframework.security:spring-security-test'
+    // bcrypt (토큰)
+    implementation 'at.favre.lib:bcrypt:0.10.2'
+
+    // Auth valid
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+
+    // jwt
+    compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+    //DB
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    //MYSQL
+    implementation 'mysql:mysql-connector-java:8.0.28'
+    // OAuth 2.0
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    // httpclient5
+    implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.3.1'
+
+    // defualt
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
@@ -32,6 +70,6 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-tasks.named('test') {
+test{
     useJUnitPlatform()
 }
