@@ -18,7 +18,7 @@
 
 🚨 기한은 단 일주일입니다! 빨리 개발하지 않으면 클라이언트에게 위약금을 물어주어야합니다!
 
-### **배달 어플리케이션?**
+### 배달 어플리케이션?
 
 **→ 우리들이 자주 접하는 바로 그 배달 주문 어플리케이션입니다. 평소 사용하던 경험을 바탕으로 클라이언트에게 최고의 프로젝트를 전달하세요!**
 
@@ -77,9 +77,6 @@
 
 - 웹사이트의 골격이나 애플리케이션의 사용자 인터페이스(UI) 및 **핵심 기능을 나타내는 단순한 선과 도형으로 구성된 다이어그램** 또는 다이어그램의 집합
 
-![*이미지 출처: https://www.visual-paradigm.com/learning/handbooks/agile-handbook/wireframe.jsp*](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/420589e9-5ac7-4316-bf7a-3845d791d267/Untitled.png)
-
-*이미지 출처: https://www.visual-paradigm.com/learning/handbooks/agile-handbook/wireframe.jsp*
 
 **효율적이고 최적화된 데이터 흐름 설계할 수 있어요.**
 
@@ -127,9 +124,6 @@
 
 - Entity Relationship Diagram의 약자로, DB에서 존재하는 것들의 관계를 도표로 나타내는 것
 
-![출처: https://online.visual-paradigm.com/ko/community/share/er-diagram-for-online-book-store-1gnrscfbme](https://prod-files-secure.s3.us-west-2.amazonaws.com/83c75a39-3aba-4ba4-a792-7aefe4b07895/8ddcea53-dfbc-4644-983b-2618193feb74/Untitled.png)
-
-출처: https://online.visual-paradigm.com/ko/community/share/er-diagram-for-online-book-store-1gnrscfbme
 
 화면에 무엇이 있는지 살펴보기
 
@@ -190,11 +184,6 @@ entity끼리의 관계 설정하기
     - 트러블 슈팅 기록 예시
         - 프로젝트를 진행하며 기록을 작성
         - 트러블 슈팅 기록 보드
-            
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/83c75a39-3aba-4ba4-a792-7aefe4b07895/62a43006-3414-4d7e-ab58-88f410638b80/image.png)
-            
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/83c75a39-3aba-4ba4-a792-7aefe4b07895/3c29a814-0a8b-4ff4-833e-d2d0358641f3/image.png)
-            
             - 트러블 슈팅 기록 보드를 만들어보세요!
                 - 프로젝트를 하면서 맞닥뜨린 문제를 기록하고, 어떤 고민을 통해 해결했는지 간단하게 적어보세요.
                 - 길게 적을 필요는 없어요! 당시의 기억이 되살아나게끔 쓰면 돼요.
@@ -359,9 +348,6 @@ entity끼리의 관계 설정하기
 
 
 ### 선택13) 이미지 저장
-
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/83c75a39-3aba-4ba4-a792-7aefe4b07895/6d5e5bc3-aaf2-4880-a841-d6c47524b683/image.png)
-
 - 가게, 메뉴, 프로필 등에 필요한 이미지를 업로드할 수 있습니다.
 - 이미지는 AWS S3와 같은 클라우드 저장소에 저장됩니다.
 - 지원되는 이미지 파일 형식은 `jpg`, `png`, `jpeg`을 지원합니다.
