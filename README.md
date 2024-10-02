@@ -355,7 +355,7 @@ entity끼리의 관계 설정하기
     - 허용되지 않는 파일 형식은 업로드할 수 없습니다.
     - 파일 크기가 설정된 제한을 초과할 경우 업로드가 불가합니다.
  
-<img width="1096" alt="image" src="https://github.com/user-attachments/assets/8ae79d32-e0eb-40ea-9fd6-02cea0b4492f">
+<img width="896" alt="image" src="https://github.com/user-attachments/assets/8ae79d32-e0eb-40ea-9fd6-02cea0b4492f">
 
  
 
